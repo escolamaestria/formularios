@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formulário inicial de diagnóstico da serventia</title>
+<style>
+  :root{
+    --marinho:#15293D;
+    --dourado:#C4A24C;
+    --creme:#F5F1E7;
+    --cinza:#5C6470;
+    --linha:#D9D3C4;
+    --branco:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--creme);color:var(--marinho);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.5;
+  }
+  .folha{max-width:880px;margin:0 auto;padding:32px 24px 56px;}
+
+  /* ------------------------------------------------------------- cabeçalho */
+  header{border-bottom:3px solid var(--dourado);padding-bottom:20px;margin-bottom:24px;}
+  .marca{font-weight:700;font-size:15px;letter-spacing:.06em;}
+  .descritor{font-style:italic;color:var(--dourado);font-size:13px;margin-top:2px;}
+  .sobretitulo{color:var(--dourado);font-weight:700;font-size:12px;
+    letter-spacing:.12em;text-transform:uppercase;margin-top:22px;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:30px;line-height:1.2;
+    margin:6px 0 10px;font-weight:700;}
+  .abertura{font-size:15.5px;color:var(--cinza);margin:0 0 12px;max-width:66ch;}
+  .abertura b{color:var(--marinho);}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:14px;font-size:13px;color:var(--cinza);}
+  .meta b{color:var(--marinho);}
+
+  /* ------------------------------------------------------------- organograma */
+  .organograma{
+    background:var(--branco);border:1px solid var(--linha);
+    padding:18px 16px 16px;margin:22px 0 26px;text-align:center;
+  }
+  .organograma .topo{
+    display:inline-block;background:var(--marinho);color:#fff;
+    font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+    padding:9px 26px;border-radius:3px;
+  }
+  .organograma .haste{width:2px;height:16px;background:var(--dourado);margin:0 auto;}
+  .organograma .ramos{
+    display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+    border-top:2px solid var(--dourado);padding-top:16px;margin-top:0;
+  }
+  .organograma .ramo{
+    flex:1 1 180px;max-width:230px;border:1px solid var(--linha);
+    border-top:3px solid var(--dourado);padding:10px 12px;background:#FBF9F3;
+  }
+  .organograma .ramo b{display:block;font-size:13.5px;}
+  .organograma .ramo span{font-size:12px;color:var(--cinza);}
+  .organograma .rodape-org{font-size:12.5px;color:var(--cinza);margin:14px 0 0;}
+
+  /* ------------------------------------------------------------- seções */
+  section{margin-bottom:26px;}
+  h2{
+    font-family:Georgia,"Times New Roman",serif;font-size:20px;
+    margin:0 0 16px;padding-bottom:6px;border-bottom:2px solid var(--dourado);
+  }
+  h2 .n{color:var(--dourado);}
+
+  .q{
+    background:var(--branco);border:1px solid var(--linha);
+    padding:14px 16px;margin-bottom:12px;
+  }
+  .q > .pergunta{font-size:15px;font-weight:600;margin:0 0 10px;display:flex;gap:8px;}
+  .q > .pergunta .num{color:var(--dourado);font-weight:700;flex:none;}
+  .dica{display:block;font-weight:400;color:var(--cinza);font-size:13px;margin-top:2px;}
+  .sub{font-size:14px;font-weight:600;margin:12px 0 6px;color:var(--marinho);}
+
+  input[type=text],input[type=number],textarea{
+    width:100%;font:inherit;font-size:15px;color:var(--marinho);background:var(--branco);
+    border:1px solid var(--linha);border-radius:3px;padding:8px 10px;
+  }
+  input[type=number]{max-width:160px;}
+  input:focus,textarea:focus{outline:none;border-color:var(--dourado);
+    box-shadow:0 0 0 2px rgba(196,162,76,.25);}
+  textarea{resize:vertical;min-height:60px;}
+
+  /* ------------------------------------------------------------- opções */
+  .opcoes{display:flex;flex-wrap:wrap;gap:8px 20px;}
+  .opcoes.coluna{flex-direction:column;gap:7px;}
+  .opcoes.duas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 20px;}
+  @media (max-width:620px){.opcoes.duas{grid-template-columns:1fr;}}
+  .opcoes label{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;cursor:pointer;}
+  input[type=radio],input[type=checkbox]{
+    accent-color:var(--dourado);width:16px;height:16px;margin:2px 0 0;flex:none;
+  }
+  .outro{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .outro input[type=text]{max-width:420px;}
+
+  /* ------------------------------------------------------------- tabelas */
+  .rolagem{overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;min-width:460px;font-size:14px;}
+  th{background:var(--marinho);color:#fff;text-align:left;font-size:12px;
+    letter-spacing:.04em;padding:8px 10px;font-weight:600;}
+  td{border:1px solid var(--linha);padding:0;background:var(--branco);}
+  td.rotulo{padding:8px 10px;font-weight:600;background:#FBF9F3;}
+  td input{border:none;border-radius:0;background:transparent;}
+  td input:focus{box-shadow:inset 0 0 0 2px rgba(196,162,76,.35);}
+
+  /* ------------------------------------------------------------- avisos */
+  .aviso{background:var(--branco);border-left:4px solid var(--dourado);
+    padding:14px 16px;margin:0 0 22px;font-size:14.5px;}
+  .aviso strong{display:block;color:var(--dourado);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+
+  /* ------------------------------------------------------------- barra */
+  .barra{position:sticky;bottom:0;background:var(--creme);border-top:1px solid var(--linha);
+    padding:12px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+  button{font:inherit;font-size:14px;font-weight:600;cursor:pointer;border-radius:3px;
+    padding:9px 16px;border:1px solid var(--marinho);background:var(--marinho);color:#fff;}
+  button.secundario{background:transparent;color:var(--marinho);}
+  button:hover{opacity:.88;}
+  .salvo{font-size:13px;color:var(--cinza);}
+
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--linha);
+    font-size:11.5px;letter-spacing:.05em;color:var(--cinza);text-align:center;
+    text-transform:uppercase;}
+
+  /* ------------------------------------------------------------- impressão */
+  @media print{
+    body{background:#fff;font-size:10.5pt;}
+    .folha{max-width:none;padding:0;}
+    .barra,.nao-imprimir{display:none !important;}
+    section,.q,.aviso,.organograma{break-inside:avoid;}
+    .q{border:none;border-bottom:1px solid #E2E2E2;padding:8px 0;}
+    input[type=text],input[type=number],textarea{
+      border:none;border-bottom:1px solid #BBB;border-radius:0;background:transparent;padding:2px 0;}
+    textarea{min-height:46px;}
+    td input{border-bottom:none;}
+    th,.organograma .topo{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    input[type=radio],input[type=checkbox]{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<header>
+  <div class="marca">MAESTROS DO DIREITO</div>
+  <div class="descritor">orquestrando a IA</div>
+
+  <div class="sobretitulo">Mentoria · Diagnóstico</div>
+  <h1>Formulário inicial de diagnóstico da serventia</h1>
+
+  <p class="abertura">
+    Este formulário tem como objetivo entender a estrutura atual da serventia, formada pelas
+    atribuições de <b>Registro Civil das Pessoas Naturais</b>, <b>Protesto de Títulos</b> e
+    <b>Tabelionato de Notas</b>.
+  </p>
+  <p class="abertura">
+    As respostas serão utilizadas para organizar o diagnóstico, identificar os responsáveis por cada
+    área e priorizar os processos que serão analisados ao longo do projeto.
+  </p>
+
+  <div class="meta">
+    <span><b>Quem responde:</b> tabelião/registrador responsável</span>
+    <span><b>Tempo estimado:</b> 8 a 10 minutos</span>
+    <span><b>Devolver:</b> até 48h antes da primeira sessão</span>
+  </div>
+</header>
+
+<div class="organograma">
+  <div class="topo">Gestão</div>
+  <div class="haste"></div>
+  <div class="ramos">
+    <div class="ramo"><b>Tabelionato de Notas</b><span>procurações, atas, firmas, escrituras, usucapião, divórcio</span></div>
+    <div class="ramo"><b>Registro Civil — RCPN</b><span>nascimento, casamento, óbito, averbações, certidões</span></div>
+    <div class="ramo"><b>Protesto de Títulos</b><span>apontamento, intimação, protesto, cancelamento</span></div>
+  </div>
+  <p class="rodape-org">
+    Uma só operação, três atribuições com equipe, volume, rotina e risco diferentes —
+    é esse cruzamento que o formulário precisa enxergar.
+  </p>
+</div>
+
+<div class="aviso">
+  <strong>Antes de começar</strong>
+  Não é auditoria e não precisa de exatidão: estimativa serve. As respostas ficam salvas neste
+  navegador enquanto você preenche — ao terminar, use o botão <b>Salvar em PDF</b> no fim da página
+  e envie para a equipe. Não inclua dados pessoais de usuários do cartório.
+</div>
+
+<form id="formulario">
+
+<!-- =========================================================== SEÇÃO 1 -->
+<section>
+  <h2><span class="n">1.</span> Visão geral da serventia</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">1.</span> Nome da serventia</p>
+    <input type="text" name="q1">
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">2.</span> Nome do tabelião/registrador responsável</p>
+    <input type="text" name="q2">
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">3.</span> Como os colaboradores estão distribuídos?</p>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th style="width:62%">Área</th><th>Quantidade de colaboradores</th></tr></thead>
+        <tbody>
+          <tr><td class="rotulo">Gestão e atendimento geral</td><td><input type="text" name="q4_gestao"></td></tr>
+          <tr><td class="rotulo">Registro Civil — RCPN</td><td><input type="text" name="q4_rcpn"></td></tr>
+          <tr><td class="rotulo">Protesto de Títulos</td><td><input type="text" name="q4_protesto"></td></tr>
+          <tr><td class="rotulo">Tabelionato de Notas</td><td><input type="text" name="q4_notas"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">4.</span> Existem colaboradores que atuam em mais de uma atribuição?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q5" value="Sim"> Sim</label>
+      <label><input type="radio" name="q5" value="Não"> Não</label>
+      <label><input type="radio" name="q5" value="Eventualmente"> Eventualmente</label>
+    </div>
+    <p class="sub">Em caso positivo: quais funções são compartilhadas?</p>
+    <textarea name="q5_quais" rows="2"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">5.</span> Quais áreas são compartilhadas pelas três atribuições?
+      <span class="dica">marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q6_recepcao"> Recepção</label>
+      <label><input type="checkbox" name="q6_whatsapp"> Atendimento por WhatsApp</label>
+      <label><input type="checkbox" name="q6_telefone"> Atendimento telefônico</label>
+      <label><input type="checkbox" name="q6_financeiro"> Financeiro</label>
+      <label><input type="checkbox" name="q6_rh"> Recursos Humanos</label>
+      <label><input type="checkbox" name="q6_gestao"> Gestão</label>
+      <label><input type="checkbox" name="q6_arquivo"> Arquivo</label>
+      <label><input type="checkbox" name="q6_tecnologia"> Tecnologia</label>
+      <label><input type="checkbox" name="q6_nenhuma"> Nenhuma</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q6_outra"> Outra:</label>
+      <input type="text" name="q6_outra_txt">
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 2 -->
+<section>
+  <h2><span class="n">2.</span> Responsáveis pela operação</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">6.</span> Quem é a principal referência de cada área?</p>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th style="width:34%">Área</th><th style="width:36%">Nome</th><th>Função</th></tr></thead>
+        <tbody>
+          <tr><td class="rotulo">Gestão/Atendimento</td><td><input type="text" name="q7_gestao_nome"></td><td><input type="text" name="q7_gestao_funcao"></td></tr>
+          <tr><td class="rotulo">Registro Civil — RCPN</td><td><input type="text" name="q7_rcpn_nome"></td><td><input type="text" name="q7_rcpn_funcao"></td></tr>
+          <tr><td class="rotulo">Protesto de Títulos</td><td><input type="text" name="q7_protesto_nome"></td><td><input type="text" name="q7_protesto_funcao"></td></tr>
+          <tr><td class="rotulo">Tabelionato de Notas</td><td><input type="text" name="q7_notas_nome"></td><td><input type="text" name="q7_notas_funcao"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">7.</span> Além do tabelião, quem costuma resolver dúvidas ou tomar decisões operacionais?</p>
+    <textarea name="q8" rows="2"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">8.</span> Alguma área depende excessivamente do conhecimento de uma única pessoa?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q9" value="Sim"> Sim</label>
+      <label><input type="radio" name="q9" value="Não"> Não</label>
+      <label><input type="radio" name="q9" value="Parcialmente"> Parcialmente</label>
+    </div>
+    <p class="sub">Em caso positivo: qual área e de quem ela depende?</p>
+    <textarea name="q9_qual" rows="2"></textarea>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3 -->
+<section>
+  <h2><span class="n">3.</span> Registro Civil das Pessoas Naturais — RCPN</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">9.</span> Quais são os serviços mais realizados no RCPN?
+      <span class="dica">marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q10_nascimento"> Registro de nascimento</label>
+      <label><input type="checkbox" name="q10_obito"> Registro de óbito</label>
+      <label><input type="checkbox" name="q10_habilitacao"> Habilitação de casamento</label>
+      <label><input type="checkbox" name="q10_casamento"> Celebração e registro de casamento</label>
+      <label><input type="checkbox" name="q10_certidoes"> Emissão de certidões</label>
+      <label><input type="checkbox" name="q10_averbacoes"> Averbações</label>
+      <label><input type="checkbox" name="q10_retificacoes"> Retificações</label>
+      <label><input type="checkbox" name="q10_paternidade"> Reconhecimento de paternidade</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q10_outro"> Outro:</label>
+      <input type="text" name="q10_outro_txt">
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">10.</span> Quais atividades mais consomem tempo da equipe do RCPN?</p>
+    <textarea name="q11" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">11.</span> Onde acontecem mais dúvidas, erros ou retrabalho no RCPN?</p>
+    <textarea name="q12" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">12.</span> Os processos do RCPN estão documentados?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q13" value="Sim"> Sim</label>
+      <label><input type="radio" name="q13" value="Parcialmente"> Parcialmente</label>
+      <label><input type="radio" name="q13" value="Não"> Não</label>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 4 -->
+<section>
+  <h2><span class="n">4.</span> Protesto de Títulos</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">13.</span> Quais são os principais processos realizados em Protesto?
+      <span class="dica">marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q14_recepcao"> Recepção e apontamento de títulos</label>
+      <label><input type="checkbox" name="q14_qualificacao"> Qualificação</label>
+      <label><input type="checkbox" name="q14_intimacao"> Intimação</label>
+      <label><input type="checkbox" name="q14_pagamento"> Pagamento</label>
+      <label><input type="checkbox" name="q14_retirada"> Retirada</label>
+      <label><input type="checkbox" name="q14_cancelamento"> Cancelamento</label>
+      <label><input type="checkbox" name="q14_certidoes"> Emissão de certidões</label>
+      <label><input type="checkbox" name="q14_credores"> Atendimento a credores</label>
+      <label><input type="checkbox" name="q14_devedores"> Atendimento a devedores</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q14_outro"> Outro:</label>
+      <input type="text" name="q14_outro_txt">
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">14.</span> Quais atividades mais consomem tempo da equipe de Protesto?</p>
+    <textarea name="q15" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">15.</span> Onde acontecem mais dúvidas, erros ou retrabalho em Protesto?</p>
+    <textarea name="q16" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">16.</span> Os processos de Protesto estão documentados?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q17" value="Sim"> Sim</label>
+      <label><input type="radio" name="q17" value="Parcialmente"> Parcialmente</label>
+      <label><input type="radio" name="q17" value="Não"> Não</label>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 5 -->
+<section>
+  <h2><span class="n">5.</span> Tabelionato de Notas</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">17.</span> Quais são os serviços mais realizados em Notas?
+      <span class="dica">marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q18_firma"> Reconhecimento de firma</label>
+      <label><input type="checkbox" name="q18_autenticacao"> Autenticação</label>
+      <label><input type="checkbox" name="q18_procuracao"> Procuração</label>
+      <label><input type="checkbox" name="q18_escrituras"> Escrituras</label>
+      <label><input type="checkbox" name="q18_inventario"> Inventário</label>
+      <label><input type="checkbox" name="q18_divorcio"> Divórcio</label>
+      <label><input type="checkbox" name="q18_ata"> Ata notarial</label>
+      <label><input type="checkbox" name="q18_testamento"> Testamento</label>
+      <label><input type="checkbox" name="q18_usucapiao"> Usucapião</label>
+      <label><input type="checkbox" name="q18_apostilamento"> Apostilamento</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q18_outro"> Outro:</label>
+      <input type="text" name="q18_outro_txt">
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">18.</span> Quais atividades mais consomem tempo da equipe de Notas?</p>
+    <textarea name="q19" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">19.</span> Onde acontecem mais dúvidas, erros ou retrabalho em Notas?</p>
+    <textarea name="q20" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">20.</span> Os processos do Tabelionato de Notas estão documentados?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q21" value="Sim"> Sim</label>
+      <label><input type="radio" name="q21" value="Parcialmente"> Parcialmente</label>
+      <label><input type="radio" name="q21" value="Não"> Não</label>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 6 -->
+<section>
+  <h2><span class="n">6.</span> Atendimento compartilhado</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">21.</span> Como o público entra em contato com a serventia?
+      <span class="dica">marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q22_presencial"> Atendimento presencial</label>
+      <label><input type="checkbox" name="q22_whatsapp"> WhatsApp</label>
+      <label><input type="checkbox" name="q22_telefone"> Telefone</label>
+      <label><input type="checkbox" name="q22_email"> E-mail</label>
+      <label><input type="checkbox" name="q22_site"> Site</label>
+      <label><input type="checkbox" name="q22_redes"> Redes sociais</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q22_outro"> Outro:</label>
+      <input type="text" name="q22_outro_txt">
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">22.</span> O atendimento inicial consegue identificar corretamente para qual atribuição deve encaminhar cada demanda?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q23" value="Sim"> Sim</label>
+      <label><input type="radio" name="q23" value="Na maioria das vezes"> Na maioria das vezes</label>
+      <label><input type="radio" name="q23" value="Às vezes"> Às vezes</label>
+      <label><input type="radio" name="q23" value="Não"> Não</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">23.</span> Quais dúvidas dos usuários mais se repetem?</p>
+    <textarea name="q24" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">24.</span> Existem respostas padronizadas para as dúvidas frequentes?</p>
+    <div class="opcoes">
+      <label><input type="radio" name="q25" value="Sim"> Sim</label>
+      <label><input type="radio" name="q25" value="Algumas"> Algumas</label>
+      <label><input type="radio" name="q25" value="Não"> Não</label>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 7 -->
+<section>
+  <h2><span class="n">7.</span> Tecnologia e processos</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">25.</span> Quais sistemas são utilizados em cada atribuição?</p>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th style="width:38%">Atribuição</th><th>Sistema utilizado</th></tr></thead>
+        <tbody>
+          <tr><td class="rotulo">RCPN</td><td><input type="text" name="q26_rcpn"></td></tr>
+          <tr><td class="rotulo">Protesto</td><td><input type="text" name="q26_protesto"></td></tr>
+          <tr><td class="rotulo">Notas</td><td><input type="text" name="q26_notas"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">26.</span> Quais controles paralelos são utilizados hoje?
+      <span class="dica">tudo que roda por fora do sistema — marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q27_planilhas"> Planilhas</label>
+      <label><input type="checkbox" name="q27_whatsapp"> WhatsApp</label>
+      <label><input type="checkbox" name="q27_word"> Documentos em Word</label>
+      <label><input type="checkbox" name="q27_email"> E-mail</label>
+      <label><input type="checkbox" name="q27_papel"> Cadernos ou anotações físicas</label>
+      <label><input type="checkbox" name="q27_pastas"> Pastas compartilhadas</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q27_outro"> Outro:</label>
+      <input type="text" name="q27_outro_txt">
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">27.</span> A equipe já utiliza inteligência artificial?</p>
+    <div class="opcoes coluna">
+      <label><input type="radio" name="q28" value="Sim, de forma recorrente"> Sim, de forma recorrente</label>
+      <label><input type="radio" name="q28" value="Sim, pontualmente"> Sim, pontualmente</label>
+      <label><input type="radio" name="q28" value="Apenas algumas pessoas"> Apenas algumas pessoas</label>
+      <label><input type="radio" name="q28" value="Não utiliza"> Não utiliza</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">28.</span> Em quais atividades a IA já é utilizada?</p>
+    <textarea name="q29" rows="2"></textarea>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 8 -->
+<section>
+  <h2><span class="n">8.</span> Prioridades do projeto</h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">29.</span> Qual atribuição deve ser priorizada inicialmente?</p>
+    <div class="opcoes coluna">
+      <label><input type="radio" name="q30" value="RCPN"> Registro Civil — RCPN</label>
+      <label><input type="radio" name="q30" value="Protesto"> Protesto de Títulos</label>
+      <label><input type="radio" name="q30" value="Notas"> Tabelionato de Notas</label>
+      <label><input type="radio" name="q30" value="Gestão e atendimento compartilhado"> Gestão e atendimento compartilhado</label>
+      <label><input type="radio" name="q30" value="Ainda não sabemos"> Ainda não sabemos</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">30.</span> Quais são hoje os três maiores gargalos da serventia?</p>
+    <textarea name="q31" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">31.</span> O que mais consome o tempo do tabelião e dos responsáveis pelos setores?</p>
+    <textarea name="q32" rows="3"></textarea>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">32.</span> Quais resultados tornariam o projeto um sucesso?
+      <span class="dica">marque todas que se aplicam</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="q33_tempo"> Redução do tempo de atendimento</label>
+      <label><input type="checkbox" name="q33_erros"> Redução de erros</label>
+      <label><input type="checkbox" name="q33_retrabalho"> Menos retrabalho</label>
+      <label><input type="checkbox" name="q33_documentados"> Processos documentados</label>
+      <label><input type="checkbox" name="q33_padronizacao"> Padronização entre colaboradores</label>
+      <label><input type="checkbox" name="q33_dependencia"> Menor dependência de pessoas específicas</label>
+      <label><input type="checkbox" name="q33_treinamento"> Treinamento mais rápido de novos colaboradores</label>
+      <label><input type="checkbox" name="q33_respostas"> Respostas mais rápidas ao público</label>
+      <label><input type="checkbox" name="q33_automacoes"> Automações funcionando na rotina</label>
+      <label><input type="checkbox" name="q33_controle"> Melhor controle da operação</label>
+    </div>
+    <div class="outro">
+      <label><input type="checkbox" name="q33_outro"> Outro:</label>
+      <input type="text" name="q33_outro_txt">
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">33.</span> Existe alguma restrição, preocupação ou prioridade que devemos considerar desde o início?</p>
+    <textarea name="q34" rows="3"></textarea>
+  </div>
+</section>
+
+<div class="aviso">
+  <strong>Próximo passo</strong>
+  Com este panorama em mãos, a equipe agenda uma conversa específica com o responsável de cada
+  atribuição — RCPN, Protesto e Notas — para detalhar os processos de cada uma. Este formulário
+  serve para saber por onde começar; o detalhe fino sai nas sessões de diagnóstico.
+</div>
+
+<div class="barra nao-imprimir">
+  <button type="button" id="btn-whats">Enviar por WhatsApp</button>
+  <button type="button" class="secundario" id="btn-copiar">Copiar respostas</button>
+  <button type="button" class="secundario" id="btn-pdf">Salvar em PDF</button>
+  <button type="button" class="secundario" id="btn-baixar" hidden>Baixar arquivo</button>
+  <button type="button" class="secundario" id="btn-limpar">Limpar</button>
+  <span class="salvo" id="status">As respostas salvam sozinhas neste navegador.</span>
+</div>
+
+</form>
+
+<footer>
+  Maestros do Direito · orquestrando a IA &nbsp;|&nbsp; Tecnologia que transforma. Pessoas que entregam.
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var CHAVE = "md-diagnostico-serventia-v2";
+  var form = document.getElementById("formulario");
+  var status = document.getElementById("status");
+  var campos = form.querySelectorAll("input, textarea");
+
+  function ler(){
+    try { return JSON.parse(localStorage.getItem(CHAVE) || "{}"); }
+    catch(e){ return {}; }
+  }
+
+  var dados = ler();
+  campos.forEach(function(c){
+    if(!c.name) return;
+    if(c.type === "checkbox"){
+      if(dados[c.name] === true) c.checked = true;
+    } else if(c.type === "radio"){
+      if(dados[c.name] === c.value) c.checked = true;
+    } else if(typeof dados[c.name] === "string"){
+      c.value = dados[c.name];
+    }
+  });
+
+  var timer;
+  function salvar(){
+    var pacote = {};
+    campos.forEach(function(c){
+      if(!c.name) return;
+      if(c.type === "checkbox"){ pacote[c.name] = c.checked; }
+      else if(c.type === "radio"){ if(c.checked) pacote[c.name] = c.value; }
+      else { pacote[c.name] = c.value; }
+    });
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(pacote));
+      status.textContent = "Salvo automaticamente às " +
+        new Date().toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit"}) + ".";
+    } catch(e){
+      status.textContent = "Não foi possível salvar neste navegador — imprima em PDF antes de fechar.";
+    }
+  }
+
+  form.addEventListener("input", function(){
+    clearTimeout(timer);
+    timer = setTimeout(salvar, 400);
+  });
+  form.addEventListener("change", function(){
+    clearTimeout(timer);
+    timer = setTimeout(salvar, 200);
+  });
+
+  // marcar "Outro" automaticamente quando o campo de texto ao lado é preenchido
+  form.querySelectorAll(".outro").forEach(function(bloco){
+    var marca = bloco.querySelector("input[type=checkbox]");
+    var texto = bloco.querySelector("input[type=text]");
+    if(!marca || !texto) return;
+    texto.addEventListener("input", function(){
+      marca.checked = texto.value.trim() !== "";
+    });
+  });
+
+  // textareas crescem conforme o texto, para nada ficar escondido na impressão
+  function ajustar(t){
+    t.style.height = "auto";
+    t.style.height = (t.scrollHeight + 2) + "px";
+  }
+  var areas = form.querySelectorAll("textarea");
+  areas.forEach(function(t){
+    ajustar(t);
+    t.addEventListener("input", function(){ ajustar(t); });
+  });
+  window.addEventListener("beforeprint", function(){ areas.forEach(ajustar); });
+
+  document.getElementById("btn-pdf").addEventListener("click", function(){
+    areas.forEach(ajustar);
+    window.print();
+  });
+
+  // ---------------------------------------------------------------- respostas
+  // Monta o texto das respostas na mesma ordem do formulário, para copiar,
+  // mandar por WhatsApp ou baixar como arquivo.
+  function limpo(el){
+    return (el.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function montarTexto(){
+    var linhas = ["FORMULÁRIO INICIAL DE DIAGNÓSTICO DA SERVENTIA",
+                  "Maestros do Direito · preenchido em " + new Date().toLocaleDateString("pt-BR"),
+                  ""];
+
+    form.querySelectorAll("section").forEach(function(sec){
+      var tituloSecao = limpo(sec.querySelector("h2"));
+      var doBloco = [];
+
+      sec.querySelectorAll(".q").forEach(function(q){
+        var pergunta = limpo(q.querySelector(".pergunta"));
+        var respostas = [];
+
+        var tabela = q.querySelector("table");
+        if(tabela){
+          tabela.querySelectorAll("tbody tr").forEach(function(tr){
+            var rotulo = limpo(tr.querySelector(".rotulo"));
+            var valores = [];
+            tr.querySelectorAll("input").forEach(function(i){
+              if(i.value.trim()) valores.push(i.value.trim());
+            });
+            if(valores.length) respostas.push("   " + rotulo + ": " + valores.join(" — "));
+          });
+        }
+
+        var marcadas = [];
+        q.querySelectorAll("input[type=checkbox]").forEach(function(c){
+          if(!c.checked) return;
+          var rotulo = limpo(c.closest("label"));
+          var bloco = c.closest(".outro");
+          if(bloco){
+            var extra = bloco.querySelector("input[type=text]");
+            rotulo = "Outro: " + (extra && extra.value.trim() ? extra.value.trim() : "(não especificado)");
+          }
+          marcadas.push(rotulo);
+        });
+        if(marcadas.length) respostas.push("   " + marcadas.join("; "));
+
+        q.querySelectorAll("input[type=radio]").forEach(function(r){
+          if(r.checked) respostas.push("   " + r.value);
+        });
+
+        q.querySelectorAll("input[type=text], input[type=number], textarea").forEach(function(campo){
+          if(campo.closest("table") || campo.closest(".outro")) return;
+          if(!campo.value.trim()) return;
+          var anterior = campo.previousElementSibling;
+          var prefixo = (anterior && anterior.classList.contains("sub")) ? limpo(anterior) + " " : "";
+          respostas.push("   " + prefixo + campo.value.trim());
+        });
+
+        if(respostas.length) doBloco.push(pergunta + "\n" + respostas.join("\n"));
+      });
+
+      if(doBloco.length) linhas.push(tituloSecao, "", doBloco.join("\n\n"), "");
+    });
+
+    if(linhas.length <= 3) return null;
+    return linhas.join("\n");
+  }
+
+  function avisar(msg){ status.textContent = msg; }
+
+  document.getElementById("btn-copiar").addEventListener("click", function(){
+    var texto = montarTexto();
+    if(!texto){ avisar("Preencha alguma resposta antes de copiar."); return; }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(texto).then(
+        function(){ avisar("Respostas copiadas — é só colar no e-mail ou no WhatsApp."); },
+        function(){ avisar("O navegador bloqueou a cópia. Use Salvar em PDF."); }
+      );
+    } else {
+      avisar("Este navegador não permite copiar. Use Salvar em PDF.");
+    }
+  });
+
+  document.getElementById("btn-whats").addEventListener("click", function(){
+    var texto = montarTexto();
+    if(!texto){ avisar("Preencha alguma resposta antes de enviar."); return; }
+    window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank", "noopener");
+    avisar("Escolha o contato no WhatsApp para enviar as respostas.");
+  });
+
+  // Botão de download: só aparece onde o navegador da página oferece esse recurso.
+  var btnBaixar = document.getElementById("btn-baixar");
+  if(window.claude && window.claude.downloads){
+    btnBaixar.hidden = false;
+    btnBaixar.addEventListener("click", function(){
+      var texto = montarTexto();
+      if(!texto){ avisar("Preencha alguma resposta antes de baixar."); return; }
+      window.claude.downloads.save({
+        filename: "diagnostico-serventia.txt",
+        data: texto
+      }).then(
+        function(){ avisar("Arquivo salvo."); },
+        function(erro){
+          var codigo = erro && erro.code;
+          if(codigo === "declined"){ avisar("Download cancelado."); }
+          else if(codigo === "rate_limited"){ avisar("Aguarde um instante e tente de novo."); }
+          else { avisar("Não foi possível baixar aqui — use Copiar respostas ou Salvar em PDF."); }
+        }
+      );
+    });
+  }
+
+  document.getElementById("btn-limpar").addEventListener("click", function(){
+    if(!confirm("Apagar todas as respostas deste formulário?")) return;
+    try { localStorage.removeItem(CHAVE); } catch(e){}
+    campos.forEach(function(c){
+      if(c.type === "checkbox" || c.type === "radio"){ c.checked = false; }
+      else { c.value = ""; }
+    });
+    areas.forEach(ajustar);
+    status.textContent = "Respostas apagadas.";
+  });
+})();
+</script>
+</body>
+</html>
