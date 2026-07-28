@@ -578,11 +578,8 @@
 </div>
 
 <div class="barra nao-imprimir">
-  <button type="button" id="btn-whats">Enviar por WhatsApp</button>
-  <button type="button" class="secundario" id="btn-copiar">Copiar respostas</button>
-  <button type="button" class="secundario" id="btn-pdf">Salvar em PDF</button>
-  <button type="button" class="secundario" id="btn-baixar" hidden>Baixar arquivo</button>
-  <button type="button" class="secundario" id="btn-limpar">Limpar</button>
+  <button type="button" id="btn-pdf">Salvar em PDF / imprimir</button>
+  <button type="button" class="secundario" id="btn-limpar">Limpar respostas</button>
   <span class="salvo" id="status">As respostas salvam sozinhas neste navegador.</span>
 </div>
 
@@ -671,117 +668,6 @@
     areas.forEach(ajustar);
     window.print();
   });
-
-  // ---------------------------------------------------------------- respostas
-  // Monta o texto das respostas na mesma ordem do formulário, para copiar,
-  // mandar por WhatsApp ou baixar como arquivo.
-  function limpo(el){
-    return (el.textContent || "").replace(/\s+/g, " ").trim();
-  }
-
-  function montarTexto(){
-    var linhas = ["FORMULÁRIO INICIAL DE DIAGNÓSTICO DA SERVENTIA",
-                  "Maestros do Direito · preenchido em " + new Date().toLocaleDateString("pt-BR"),
-                  ""];
-
-    form.querySelectorAll("section").forEach(function(sec){
-      var tituloSecao = limpo(sec.querySelector("h2"));
-      var doBloco = [];
-
-      sec.querySelectorAll(".q").forEach(function(q){
-        var pergunta = limpo(q.querySelector(".pergunta"));
-        var respostas = [];
-
-        var tabela = q.querySelector("table");
-        if(tabela){
-          tabela.querySelectorAll("tbody tr").forEach(function(tr){
-            var rotulo = limpo(tr.querySelector(".rotulo"));
-            var valores = [];
-            tr.querySelectorAll("input").forEach(function(i){
-              if(i.value.trim()) valores.push(i.value.trim());
-            });
-            if(valores.length) respostas.push("   " + rotulo + ": " + valores.join(" — "));
-          });
-        }
-
-        var marcadas = [];
-        q.querySelectorAll("input[type=checkbox]").forEach(function(c){
-          if(!c.checked) return;
-          var rotulo = limpo(c.closest("label"));
-          var bloco = c.closest(".outro");
-          if(bloco){
-            var extra = bloco.querySelector("input[type=text]");
-            rotulo = "Outro: " + (extra && extra.value.trim() ? extra.value.trim() : "(não especificado)");
-          }
-          marcadas.push(rotulo);
-        });
-        if(marcadas.length) respostas.push("   " + marcadas.join("; "));
-
-        q.querySelectorAll("input[type=radio]").forEach(function(r){
-          if(r.checked) respostas.push("   " + r.value);
-        });
-
-        q.querySelectorAll("input[type=text], input[type=number], textarea").forEach(function(campo){
-          if(campo.closest("table") || campo.closest(".outro")) return;
-          if(!campo.value.trim()) return;
-          var anterior = campo.previousElementSibling;
-          var prefixo = (anterior && anterior.classList.contains("sub")) ? limpo(anterior) + " " : "";
-          respostas.push("   " + prefixo + campo.value.trim());
-        });
-
-        if(respostas.length) doBloco.push(pergunta + "\n" + respostas.join("\n"));
-      });
-
-      if(doBloco.length) linhas.push(tituloSecao, "", doBloco.join("\n\n"), "");
-    });
-
-    if(linhas.length <= 3) return null;
-    return linhas.join("\n");
-  }
-
-  function avisar(msg){ status.textContent = msg; }
-
-  document.getElementById("btn-copiar").addEventListener("click", function(){
-    var texto = montarTexto();
-    if(!texto){ avisar("Preencha alguma resposta antes de copiar."); return; }
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(texto).then(
-        function(){ avisar("Respostas copiadas — é só colar no e-mail ou no WhatsApp."); },
-        function(){ avisar("O navegador bloqueou a cópia. Use Salvar em PDF."); }
-      );
-    } else {
-      avisar("Este navegador não permite copiar. Use Salvar em PDF.");
-    }
-  });
-
-  document.getElementById("btn-whats").addEventListener("click", function(){
-    var texto = montarTexto();
-    if(!texto){ avisar("Preencha alguma resposta antes de enviar."); return; }
-    window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank", "noopener");
-    avisar("Escolha o contato no WhatsApp para enviar as respostas.");
-  });
-
-  // Botão de download: só aparece onde o navegador da página oferece esse recurso.
-  var btnBaixar = document.getElementById("btn-baixar");
-  if(window.claude && window.claude.downloads){
-    btnBaixar.hidden = false;
-    btnBaixar.addEventListener("click", function(){
-      var texto = montarTexto();
-      if(!texto){ avisar("Preencha alguma resposta antes de baixar."); return; }
-      window.claude.downloads.save({
-        filename: "diagnostico-serventia.txt",
-        data: texto
-      }).then(
-        function(){ avisar("Arquivo salvo."); },
-        function(erro){
-          var codigo = erro && erro.code;
-          if(codigo === "declined"){ avisar("Download cancelado."); }
-          else if(codigo === "rate_limited"){ avisar("Aguarde um instante e tente de novo."); }
-          else { avisar("Não foi possível baixar aqui — use Copiar respostas ou Salvar em PDF."); }
-        }
-      );
-    });
-  }
 
   document.getElementById("btn-limpar").addEventListener("click", function(){
     if(!confirm("Apagar todas as respostas deste formulário?")) return;
