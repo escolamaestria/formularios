@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Diagnóstico RCPN — condução da sessão</title>
+<style>
+  :root{
+    --marinho:#15293D; --dourado:#C4A24C; --creme:#F5F1E7; --cinza:#5C6470;
+    --linha:#D9D3C4; --branco:#FFFFFF; --alerta:#8C2F1F; --verde:#2E6B4F;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--creme);color:var(--marinho);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.55;}
+  .folha{max-width:920px;margin:0 auto;padding:32px 24px 90px;}
+
+  header{border-bottom:3px solid var(--dourado);padding-bottom:20px;margin-bottom:22px;}
+  .marca{font-weight:700;font-size:15px;letter-spacing:.06em;}
+  .descritor{font-style:italic;color:var(--dourado);font-size:13px;margin-top:2px;}
+  .sobretitulo{color:var(--dourado);font-weight:700;font-size:12px;
+    letter-spacing:.12em;text-transform:uppercase;margin-top:22px;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:32px;line-height:1.15;
+    margin:6px 0 8px;font-weight:700;}
+  .abertura{font-size:15.5px;color:var(--cinza);margin:0 0 10px;max-width:72ch;}
+  .abertura b{color:var(--marinho);}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:14px;font-size:13px;color:var(--cinza);}
+  .meta b{color:var(--marinho);}
+
+  section{margin-bottom:26px;}
+  h2{font-family:Georgia,"Times New Roman",serif;font-size:21px;margin:0 0 6px;
+    padding-bottom:6px;border-bottom:2px solid var(--dourado);
+    display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  h2 .n{color:var(--dourado);}
+  h2 .tempo{margin-left:auto;font-family:inherit;font-size:12px;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--branco);
+    background:var(--marinho);padding:3px 10px;border-radius:11px;}
+  .intro-secao{font-size:14px;color:var(--cinza);margin:0 0 14px;max-width:76ch;}
+
+  .q{background:var(--branco);border:1px solid var(--linha);padding:14px 16px;margin-bottom:12px;}
+  .q > .pergunta{font-size:15px;font-weight:600;margin:0 0 10px;display:flex;gap:8px;}
+  .q > .pergunta .num{color:var(--dourado);font-weight:700;flex:none;}
+  .dica{display:block;font-weight:400;color:var(--cinza);font-size:13px;margin-top:2px;}
+  .sub{font-size:13.5px;font-weight:600;margin:12px 0 6px;color:var(--marinho);}
+  .linha-campos{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end;}
+  .campo{flex:1 1 190px;min-width:140px;}
+  .campo > label{display:block;font-size:12.5px;font-weight:600;color:var(--cinza);margin-bottom:3px;}
+
+  input[type=text],input[type=number],input[type=date],input[type=time],textarea,select{
+    width:100%;font:inherit;font-size:15px;color:var(--marinho);background:var(--branco);
+    border:1px solid var(--linha);border-radius:3px;padding:8px 10px;}
+  input[type=number]{max-width:170px;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--dourado);
+    box-shadow:0 0 0 2px rgba(196,162,76,.25);}
+  textarea{resize:vertical;min-height:58px;}
+  select{cursor:pointer;}
+
+  .opcoes{display:flex;flex-wrap:wrap;gap:8px 20px;}
+  .opcoes.duas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 20px;}
+  @media (max-width:640px){.opcoes.duas{grid-template-columns:1fr;}}
+  .opcoes label{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;cursor:pointer;}
+  input[type=radio],input[type=checkbox]{accent-color:var(--dourado);width:18px;height:18px;
+    margin:1px 0 0;flex:none;cursor:pointer;}
+  .outro{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .outro input[type=text]{max-width:420px;}
+
+  .check{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;cursor:pointer;
+    background:var(--branco);border:1px solid var(--linha);padding:9px 12px;margin-bottom:7px;}
+  .check:hover{border-color:var(--dourado);}
+  .check input:checked ~ span{color:var(--cinza);text-decoration:line-through;}
+
+  .rolagem{overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px;}
+  th{background:var(--marinho);color:#fff;text-align:left;font-size:11.5px;
+    letter-spacing:.04em;padding:8px 10px;font-weight:600;}
+  td{border:1px solid var(--linha);padding:0;background:var(--branco);vertical-align:top;}
+  td.rotulo{padding:9px 10px;font-weight:600;background:#FBF9F3;font-size:13.5px;}
+  td.centro{text-align:center;padding:8px 4px;}
+  td input,td textarea,td select{border:none;border-radius:0;background:transparent;font-size:14px;}
+  td input:focus,td textarea:focus,td select:focus{box-shadow:inset 0 0 0 2px rgba(196,162,76,.35);}
+  td textarea{min-height:44px;}
+  td.horas{padding:9px 10px;font-weight:700;text-align:right;background:#FBF9F3;
+    font-variant-numeric:tabular-nums;color:var(--marinho);}
+  tr.total td{background:var(--marinho);color:#fff;font-weight:700;padding:10px;}
+  tr.total td.horas{background:var(--marinho);color:var(--dourado);font-size:16px;}
+
+  .aviso{background:var(--branco);border-left:4px solid var(--dourado);
+    padding:14px 16px;margin:0 0 18px;font-size:14.5px;}
+  .aviso strong{display:block;color:var(--dourado);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+  .aviso.risco{border-left-color:var(--alerta);background:#FBEDEA;}
+  .aviso.risco strong{color:var(--alerta);}
+  .aviso.bom{border-left-color:var(--verde);background:#EAF2ED;}
+  .aviso.bom strong{color:var(--verde);}
+  .fala{background:#FBF9F3;border:1px solid var(--linha);border-left:4px solid var(--marinho);
+    padding:14px 16px;margin:0 0 16px;font-size:15px;font-style:italic;}
+  .fala strong{display:block;font-style:normal;color:var(--marinho);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+
+  details{background:#FBF9F3;border:1px dashed var(--linha);padding:8px 12px;margin-top:10px;}
+  details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--dourado);
+    letter-spacing:.04em;text-transform:uppercase;}
+  details p{margin:8px 0 2px;font-size:13.5px;color:var(--cinza);}
+
+  ol.curinga{margin:0;padding-left:22px;}
+  ol.curinga li{margin-bottom:6px;font-size:14.5px;}
+
+  .barra{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--marinho);color:#fff;
+    padding:10px 20px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;}
+  button{font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;border-radius:3px;
+    padding:8px 14px;border:1px solid var(--dourado);background:var(--dourado);color:var(--marinho);}
+  button.secundario{background:transparent;color:#fff;border-color:rgba(255,255,255,.45);}
+  button:hover{opacity:.88;}
+  .relogio{font-variant-numeric:tabular-nums;font-weight:700;font-size:17px;min-width:62px;}
+  .agora{font-size:12.5px;color:#D9D3C4;} .agora b{color:var(--dourado);}
+  .salvo{font-size:12px;color:#B9C0C9;margin-left:auto;}
+  .contador{font-size:12.5px;color:#D9D3C4;} .contador b{color:var(--dourado);}
+
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--linha);
+    font-size:11.5px;letter-spacing:.05em;color:var(--cinza);text-align:center;text-transform:uppercase;}
+
+  @media print{
+    @page{size:A4;margin:13mm;}
+    body{background:#fff;font-size:10pt;}
+    .folha{max-width:none;padding:0;}
+    .barra,.nao-imprimir{display:none !important;}
+    .q,.aviso,.fala,tr{break-inside:avoid;}
+    h2{break-after:avoid;}
+    .q{border:none;border-bottom:1px solid #E2E2E2;padding:7px 0;}
+    input[type=text],input[type=number],input[type=date],input[type=time],textarea,select{
+      border:none;border-bottom:1px solid #BBB;border-radius:0;background:transparent;padding:2px 0;}
+    textarea{min-height:40px;}
+    td input,td textarea,td select{border-bottom:none;}
+    .check{border:none;padding:2px 0;}
+    details{border:none;background:transparent;padding:0;} details summary{display:none;}
+    th,tr.total td{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    input[type=radio],input[type=checkbox]{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<header>
+  <div class="marca">MAESTROS DO DIREITO</div>
+  <div class="descritor">orquestrando a IA</div>
+  <div class="sobretitulo">Mentoria · Diagnóstico · Sessão 2</div>
+  <h1>Registro Civil das Pessoas Naturais</h1>
+  <p class="abertura">Formulário de <b>condução</b> — preencher durante o encontro. Clique nas caixas,
+  digite nos campos.</p>
+  <div class="meta">
+    <span><b>Serventia:</b> Cartório Bandeira — Canaã dos Carajás/PA</span>
+    <span><b>Duração:</b> 2 horas</span>
+    <span><b>Base:</b> formulário inicial + o que apareceu na Sessão 1 (Protesto)</span>
+  </div>
+</header>
+
+<div class="aviso nao-imprimir">
+  <strong>Como usar</strong>
+  Salva sozinho neste navegador — use o <b>Chrome</b>. O cronômetro embaixo mostra em que bloco você
+  deveria estar. Ao terminar: <b>Copiar resumo</b> gera o texto pronto para o grupo, e
+  <b>Salvar em PDF</b> arquiva. Não digite nome, CPF ou dado de usuário do cartório.
+</div>
+
+<div class="aviso risco nao-imprimir">
+  <strong>A tese desta sessão é diferente da do Protesto</strong>
+  No Protesto descobrimos que o núcleo já era automatizado e a dor estava nas bordas. No RCPN a
+  aposta é outra: <b>boa parte do que dói pode já estar resolvida pelas plataformas nacionais</b>
+  (CRC, e-Protocolo, unidade interligada). Por isso o primeiro bloco pesado é separar
+  <b>o que já está resolvido lá fora</b> do que ainda custa trabalho aqui dentro. Não propor
+  automação para algo que a central já faz — ou que está prestes a fazer.
+</div>
+
+<form id="formulario">
+
+<!-- =========================================================== SEÇÃO 0 -->
+<section>
+  <h2><span class="n">0.</span> Registro do encontro</h2>
+
+  <div class="q">
+    <div class="linha-campos">
+      <div class="campo"><label>Data</label><input type="date" name="data"></div>
+      <div class="campo"><label>Início</label><input type="time" name="inicio"></div>
+      <div class="campo"><label>Quem conduz</label><input type="text" name="conduz"></div>
+      <div class="campo"><label>Quem registra</label><input type="text" name="registra"></div>
+    </div>
+    <p class="sub">Formato</p>
+    <div class="opcoes">
+      <label><input type="radio" name="formato" value="Presencial"><span>Presencial</span></label>
+      <label><input type="radio" name="formato" value="Remoto"><span>Remoto</span></label>
+      <label><input type="radio" name="formato" value="Híbrido"><span>Híbrido</span></label>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Quem está na sala
+      <span class="dica">Precisam estar: Luciane (referência do RCPN) · quem faz habilitação de
+      casamento · quem emite certidões · quem lavra nascimento e óbito · quem cuida das averbações.
+      O tabelião abre e fecha — a equipe fala mais solta sem ele o tempo inteiro.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:32%">Nome</th><th style="width:22%">Função</th>
+            <th>O que faz no RCPN</th><th style="width:9%">Presente</th></tr>
+        <tr><td><input type="text" name="sala1_nome" value="Luciane"></td>
+            <td><input type="text" name="sala1_funcao" value="escrevente"></td>
+            <td><input type="text" name="sala1_papel" value="referência do setor"></td>
+            <td class="centro"><input type="checkbox" name="sala1_ok"></td></tr>
+        <tr><td><input type="text" name="sala2_nome"></td><td><input type="text" name="sala2_funcao"></td>
+            <td><input type="text" name="sala2_papel"></td><td class="centro"><input type="checkbox" name="sala2_ok"></td></tr>
+        <tr><td><input type="text" name="sala3_nome"></td><td><input type="text" name="sala3_funcao"></td>
+            <td><input type="text" name="sala3_papel"></td><td class="centro"><input type="checkbox" name="sala3_ok"></td></tr>
+        <tr><td><input type="text" name="sala4_nome"></td><td><input type="text" name="sala4_funcao"></td>
+            <td><input type="text" name="sala4_papel"></td><td class="centro"><input type="checkbox" name="sala4_ok"></td></tr>
+        <tr><td><input type="text" name="sala5_nome"></td><td><input type="text" name="sala5_funcao"></td>
+            <td><input type="text" name="sala5_papel"></td><td class="centro"><input type="checkbox" name="sala5_ok"></td></tr>
+        <tr><td><input type="text" name="sala6_nome"></td><td><input type="text" name="sala6_funcao"></td>
+            <td><input type="text" name="sala6_papel"></td><td class="centro"><input type="checkbox" name="sala6_ok"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> As 5 respostas que não podem faltar
+      <span class="dica">Marque ao longo do encontro. Se alguma ainda estiver em branco à 1h40,
+      force o assunto.</span></p>
+    <label class="check"><input type="checkbox" name="meta1" class="essencial"><span>O fluxo real dos principais atos, do pedido à entrega.</span></label>
+    <label class="check"><input type="checkbox" name="meta2" class="essencial"><span>O que já está resolvido pelas plataformas nacionais — e o que não está.</span></label>
+    <label class="check"><input type="checkbox" name="meta3" class="essencial"><span>As tarefas manuais que sobram, <b>com volume e tempo</b>.</span></label>
+    <label class="check"><input type="checkbox" name="meta4" class="essencial"><span>Os três gargalos reais.</span></label>
+    <label class="check"><input type="checkbox" name="meta5" class="essencial"><span>O piloto 1 definido.</span></label>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Roteiro do encontro</p>
+    <div class="rolagem">
+      <table>
+        <tr><th>Bloco</th><th style="width:14%">Tempo</th><th>Bloco</th><th style="width:14%">Tempo</th></tr>
+        <tr><td class="rotulo">1 · Abertura e confirmação</td><td class="rotulo">12 min</td>
+            <td class="rotulo">5 · Nascimento e óbito</td><td class="rotulo">13 min</td></tr>
+        <tr><td class="rotulo">2 · O que já está resolvido</td><td class="rotulo">28 min</td>
+            <td class="rotulo">6 · Averbações e comunicações</td><td class="rotulo">13 min</td></tr>
+        <tr><td class="rotulo">3 · Habilitação de casamento</td><td class="rotulo">25 min</td>
+            <td class="rotulo">7-8 · Business case e piloto</td><td class="rotulo">12 min</td></tr>
+        <tr><td class="rotulo">4 · Certidões e a fila</td><td class="rotulo">17 min</td>
+            <td class="rotulo">Fechamento</td><td class="rotulo">10 min</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 1 -->
+<section>
+  <h2><span class="n">1.</span> Abertura e confirmação <span class="tempo">12 min</span></h2>
+
+  <div class="fala">
+    <strong>Fala de abertura</strong>
+    “Hoje a gente quer entender o que já está resolvido pelo sistema de vocês e pelas plataformas
+    nacionais, e o que ainda exige trabalho manual da equipe. Não viemos automatizar o que já
+    funciona. Viemos encontrar onde vocês repetem informação, conferem duas vezes, respondem sempre a
+    mesma dúvida ou ficam esperando alguma coisa para o processo andar.”
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Combinados de abertura</p>
+    <label class="check"><input type="checkbox" name="comb1"><span>Combinado sobre gravação da reunião.</span></label>
+    <label class="check"><input type="checkbox" name="comb2"><span><b>LGPD reforçada:</b> o RCPN lida com dado sensível — filiação, nascimento, óbito, alteração de nome e gênero. Nada de print sem tarja, nada de documento real saindo daqui, nada em ferramenta de IA.</span></label>
+    <label class="check"><input type="checkbox" name="comb3"><span>Deixado claro: não é auditoria, ninguém está sendo avaliado.</span></label>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A pergunta de aquecimento — cada pessoa responde
+      <span class="dica">“Se você pudesse eliminar <b>uma</b> tarefa chata ou repetitiva do RCPN
+      amanhã, qual seria?” Não deixe ninguém de fora e não deixe ninguém concordar com o anterior.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:26%">Quem</th><th>O que eliminaria</th></tr>
+        <tr><td><input type="text" name="aq1_quem"></td><td><input type="text" name="aq1_o"></td></tr>
+        <tr><td><input type="text" name="aq2_quem"></td><td><input type="text" name="aq2_o"></td></tr>
+        <tr><td><input type="text" name="aq3_quem"></td><td><input type="text" name="aq3_o"></td></tr>
+        <tr><td><input type="text" name="aq4_quem"></td><td><input type="text" name="aq4_o"></td></tr>
+        <tr><td><input type="text" name="aq5_quem"></td><td><input type="text" name="aq5_o"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Confirmar o que já sabemos do RCPN
+      <span class="dica">Vem do formulário inicial e da Sessão 1. Ler linha por linha e perguntar “é
+      isso mesmo?”. Marque quando confirmar; se estiver errado, deixe desmarcado e escreva a correção.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:48%">O que já sabemos</th><th style="width:8%">Confere</th><th>Correção / detalhe</th></tr>
+        <tr><td class="rotulo">RCPN tem 6 colaboradores — o maior time depois de Notas</td>
+            <td class="centro"><input type="checkbox" name="cf1"></td><td><input type="text" name="cf1_obs"></td></tr>
+        <tr><td class="rotulo">Referência do setor: Luciane (escrevente)</td>
+            <td class="centro"><input type="checkbox" name="cf2"></td><td><input type="text" name="cf2_obs"></td></tr>
+        <tr><td class="rotulo">Sistema: Extradigital, o mesmo das outras atribuições</td>
+            <td class="centro"><input type="checkbox" name="cf3"></td><td><input type="text" name="cf3_obs"></td></tr>
+        <tr><td class="rotulo">Processos do RCPN estão documentados</td>
+            <td class="centro"><input type="checkbox" name="cf4"></td><td><input type="text" name="cf4_obs"></td></tr>
+        <tr><td class="rotulo">O que mais consome tempo: <b>óbito e nascimento, habilitação de casamento, retificações e reconhecimento de paternidade</b></td>
+            <td class="centro"><input type="checkbox" name="cf5"></td><td><input type="text" name="cf5_obs"></td></tr>
+        <tr><td class="rotulo">Onde mais há dúvida, erro e retrabalho: <b>habilitação de casamento, óbito e nascimento</b></td>
+            <td class="centro"><input type="checkbox" name="cf6"></td><td><input type="text" name="cf6_obs"></td></tr>
+        <tr><td class="rotulo">Vocês citaram “comunicações necessárias” como peso — escreveram <b>“SIC”</b>. É o <b>SIRC</b>?</td>
+            <td class="centro"><input type="checkbox" name="cf7"></td><td><input type="text" name="cf7_obs"></td></tr>
+        <tr><td class="rotulo">Vocês pediram <b>“automatização do checklist”</b> — em que ato exatamente?</td>
+            <td class="centro"><input type="checkbox" name="cf8"></td><td><input type="text" name="cf8_obs"></td></tr>
+        <tr><td class="rotulo">Certidão de registro civil tem prazo de <b>5 dias</b> (dito na Sessão 1)</td>
+            <td class="centro"><input type="checkbox" name="cf9"></td><td><input type="text" name="cf9_obs"></td></tr>
+        <tr><td class="rotulo">O RCPN tem seu próprio WhatsApp, e o e-mail chega pela caixa única via triagem do Júnior</td>
+            <td class="centro"><input type="checkbox" name="cf10"></td><td><input type="text" name="cf10_obs"></td></tr>
+        <tr><td class="rotulo">Nenhuma dependência de pessoa única no RCPN</td>
+            <td class="centro"><input type="checkbox" name="cf11"></td><td><input type="text" name="cf11_obs"></td></tr>
+        <tr><td class="rotulo">A equipe não usa IA hoje</td>
+            <td class="centro"><input type="checkbox" name="cf12"></td><td><input type="text" name="cf12_obs"></td></tr>
+      </table>
+    </div>
+
+    <div class="aviso" style="margin:14px 0 0">
+      <strong>Uma pergunta delicada, mas que vale ouro</strong>
+      Na Sessão 1 o Kélcio disse que o <b>Protesto pratica cerca de 10× mais atos que o RCPN</b> —
+      e mesmo assim o RCPN tem <b>mais gente</b> (6 contra 4). Perguntar com cuidado e sem juízo:
+      <i>“o que faz cada ato do registro civil levar mais trabalho que um ato de protesto?”</i>
+      A resposta provavelmente aponta direto para o gargalo: mais documento, mais conferência, mais
+      conversa com o cidadão.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 2 -->
+<section>
+  <h2><span class="n">2.</span> O que já está resolvido — sistema local × plataformas nacionais <span class="tempo">28 min</span></h2>
+  <p class="intro-secao">O bloco mais importante da sessão. Antes de falar em automação, separar o
+    que a central já faz do que sobra para a equipe.</p>
+
+  <div class="aviso risco">
+    <strong>Regra de conduta</strong>
+    Quem conhece esse ecossistema é o registrador, não nós. <b>Perguntar, não afirmar.</b> A lista
+    abaixo é um roteiro de perguntas — se algum módulo tiver outro nome, mudou de versão ou não se
+    aplica a este cartório, corrija na hora e siga. Errar o nome de uma plataforma na frente do
+    Kélcio custa mais caro do que não citá-la.
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> O sistema local</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:46%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">É o Extradigital aqui também? Mesma versão e mesmo fornecedor?</td><td><input type="text" name="sis_qual"></td></tr>
+        <tr><td class="rotulo">Ele conversa com a CRC? Em que pontos?</td><td><input type="text" name="sis_crc"></td></tr>
+        <tr><td class="rotulo">O que entra no sistema <b>automaticamente</b></td><td><input type="text" name="sis_auto"></td></tr>
+        <tr><td class="rotulo">O que precisa ser <b>digitado</b></td><td><input type="text" name="sis_digita"></td></tr>
+        <tr><td class="rotulo">O que precisa ser digitado <b>duas vezes</b></td><td><input type="text" name="sis_2x"></td></tr>
+        <tr><td class="rotulo">O que vocês fazem <b>direto na central</b>, fora do sistema local</td><td><input type="text" name="sis_central"></td></tr>
+        <tr><td class="rotulo">O que é feito <b>fora dos dois</b> — papel, planilha, WhatsApp, caderno</td><td><input type="text" name="sis_fora"></td></tr>
+        <tr><td class="rotulo">Exporta relatório? Importa planilha? Tem API?</td><td><input type="text" name="sis_api"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> As plataformas nacionais — o que usam e o que sobra
+      <span class="dica">Para cada uma: usam? para quê? e o que <b>ainda é manual</b> mesmo usando?
+      A última coluna é a que interessa.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:26%">Plataforma / módulo</th><th style="width:9%">Usam</th>
+            <th style="width:30%">Para quê</th><th>O que ainda é manual mesmo assim</th></tr>
+        <tr><td class="rotulo">CRC Nacional</td><td class="centro"><input type="checkbox" name="pl1"></td>
+            <td><input type="text" name="pl1_p"></td><td><input type="text" name="pl1_m"></td></tr>
+        <tr><td class="rotulo">e-Protocolo <span class="dica">pedidos eletrônicos entre cartórios, cidadão e órgãos</span></td>
+            <td class="centro"><input type="checkbox" name="pl2"></td>
+            <td><input type="text" name="pl2_p"></td><td><input type="text" name="pl2_m"></td></tr>
+        <tr><td class="rotulo">SIRC <span class="dica">comunicações ao governo — INSS e afins</span></td>
+            <td class="centro"><input type="checkbox" name="pl3"></td>
+            <td><input type="text" name="pl3_p"></td><td><input type="text" name="pl3_m"></td></tr>
+        <tr><td class="rotulo">Unidade interligada em hospital/maternidade</td>
+            <td class="centro"><input type="checkbox" name="pl4"></td>
+            <td><input type="text" name="pl4_p"></td><td><input type="text" name="pl4_m"></td></tr>
+        <tr><td class="rotulo">CPF emitido junto com o registro de nascimento</td>
+            <td class="centro"><input type="checkbox" name="pl5"></td>
+            <td><input type="text" name="pl5_p"></td><td><input type="text" name="pl5_m"></td></tr>
+        <tr><td class="rotulo">Proclamas / editais em meio eletrônico</td>
+            <td class="centro"><input type="checkbox" name="pl6"></td>
+            <td><input type="text" name="pl6_p"></td><td><input type="text" name="pl6_m"></td></tr>
+        <tr><td class="rotulo">Módulo de emolumentos da central</td>
+            <td class="centro"><input type="checkbox" name="pl7"></td>
+            <td><input type="text" name="pl7_p"></td><td><input type="text" name="pl7_m"></td></tr>
+        <tr><td class="rotulo">Assinatura / identidade digital do registro civil</td>
+            <td class="centro"><input type="checkbox" name="pl8"></td>
+            <td><input type="text" name="pl8_p"></td><td><input type="text" name="pl8_m"></td></tr>
+        <tr><td><input type="text" name="pl9_nome" placeholder="Outra que eles citarem…"></td>
+            <td class="centro"><input type="checkbox" name="pl9"></td>
+            <td><input type="text" name="pl9_p"></td><td><input type="text" name="pl9_m"></td></tr>
+        <tr><td><input type="text" name="pl10_nome" placeholder="Outra…"></td>
+            <td class="centro"><input type="checkbox" name="pl10"></td>
+            <td><input type="text" name="pl10_p"></td><td><input type="text" name="pl10_m"></td></tr>
+      </table>
+    </div>
+    <details><summary>Sondagens</summary>
+      <p>Tem alguma coisa que a central já faz e vocês ainda refazem à mão? · O que vocês gostariam
+      que a central fizesse e ela não faz? · Já pediram alguma coisa ao fornecedor do sistema e não
+      veio? · Tem algum módulo novo que vocês sabem que está vindo?</p></details>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Ver na tela — escolher <b>três</b> casos reais
+      <span class="dica">“Me mostra do momento em que o cidadão pede até o momento em que vocês
+      entregam.” Não tente mapear os quinze serviços.</span></p>
+    <label class="check"><input type="checkbox" name="tela1"><span><b>Caso 1 —</b> uma segunda via / certidão</span></label>
+    <label class="check"><input type="checkbox" name="tela2"><span><b>Caso 2 —</b> um nascimento ou um óbito</span></label>
+    <label class="check"><input type="checkbox" name="tela3"><span><b>Caso 3 —</b> uma habilitação de casamento</span></label>
+    <div class="rolagem" style="margin-top:10px">
+      <table>
+        <tr><th style="width:24%">Etapa</th><th style="width:16%">Onde acontece</th>
+            <th style="width:12%">Auto/Manual</th><th style="width:12%">Tempo</th><th>Onde trava</th></tr>
+        <tr><td><input type="text" name="et1_e"></td><td><input type="text" name="et1_o"></td>
+            <td class="centro"><input type="text" name="et1_am"></td><td><input type="text" name="et1_t"></td><td><input type="text" name="et1_x"></td></tr>
+        <tr><td><input type="text" name="et2_e"></td><td><input type="text" name="et2_o"></td>
+            <td class="centro"><input type="text" name="et2_am"></td><td><input type="text" name="et2_t"></td><td><input type="text" name="et2_x"></td></tr>
+        <tr><td><input type="text" name="et3_e"></td><td><input type="text" name="et3_o"></td>
+            <td class="centro"><input type="text" name="et3_am"></td><td><input type="text" name="et3_t"></td><td><input type="text" name="et3_x"></td></tr>
+        <tr><td><input type="text" name="et4_e"></td><td><input type="text" name="et4_o"></td>
+            <td class="centro"><input type="text" name="et4_am"></td><td><input type="text" name="et4_t"></td><td><input type="text" name="et4_x"></td></tr>
+        <tr><td><input type="text" name="et5_e"></td><td><input type="text" name="et5_o"></td>
+            <td class="centro"><input type="text" name="et5_am"></td><td><input type="text" name="et5_t"></td><td><input type="text" name="et5_x"></td></tr>
+        <tr><td><input type="text" name="et6_e"></td><td><input type="text" name="et6_o"></td>
+            <td class="centro"><input type="text" name="et6_am"></td><td><input type="text" name="et6_t"></td><td><input type="text" name="et6_x"></td></tr>
+        <tr><td><input type="text" name="et7_e"></td><td><input type="text" name="et7_o"></td>
+            <td class="centro"><input type="text" name="et7_am"></td><td><input type="text" name="et7_t"></td><td><input type="text" name="et7_x"></td></tr>
+        <tr><td><input type="text" name="et8_e"></td><td><input type="text" name="et8_o"></td>
+            <td class="centro"><input type="text" name="et8_am"></td><td><input type="text" name="et8_t"></td><td><input type="text" name="et8_x"></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3 -->
+<section>
+  <h2><span class="n">3.</span> Habilitação de casamento <span class="tempo">25 min</span></h2>
+  <p class="intro-secao">A aposta principal. No formulário inicial ela aparece nas <b>duas</b> listas:
+    a do que mais consome tempo e a do que mais gera dúvida e retrabalho. É o único ato do RCPN nas duas.</p>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A documentação</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:46%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">Que documentos o casal precisa apresentar</td><td><textarea name="hab_docs"></textarea></td></tr>
+        <tr><td class="rotulo">Muda conforme o caso? (solteiro, viúvo, divorciado, estrangeiro, menor)</td><td><input type="text" name="hab_varia"></td></tr>
+        <tr><td class="rotulo">Com que frequência chega incompleto</td><td><input type="text" name="hab_incompleto"></td></tr>
+        <tr><td class="rotulo">Quem confere</td><td><input type="text" name="hab_confere"></td></tr>
+        <tr><td class="rotulo">Existe checklist hoje? Em papel, no sistema, na cabeça?</td><td><input type="text" name="hab_checklist"></td></tr>
+        <tr><td class="rotulo">Quantas vezes, em média, o casal precisa voltar</td><td><input type="text" name="hab_voltas"></td></tr>
+        <tr><td class="rotulo">Quanta troca de mensagem até completar</td><td><input type="text" name="hab_mensagens"></td></tr>
+        <tr><td class="rotulo">Existe formulário prévio? Dá para receber documento antes do presencial?</td><td><input type="text" name="hab_previo"></td></tr>
+        <tr><td class="rotulo">Os dados são importados de algum lugar ou tudo é digitado?</td><td><input type="text" name="hab_digita"></td></tr>
+        <tr><td class="rotulo">Como é montado o edital de proclamas</td><td><input type="text" name="hab_edital"></td></tr>
+        <tr><td class="rotulo">Como controlam o prazo de eficácia da habilitação</td><td><input type="text" name="hab_prazo"></td></tr>
+        <tr><td class="rotulo">Qual exigência mais se repete</td><td><input type="text" name="hab_exigencia"></td></tr>
+      </table>
+    </div>
+    <div class="aviso bom" style="margin-top:12px">
+      <strong>Anotar para o bloco 7</strong>
+      Quantas habilitações por mês? Quanto tempo leva uma, do primeiro atendimento à celebração?
+      <b>Leve os dois números para a calculadora.</b>
+    </div>
+  </div>
+
+  <div class="aviso">
+    <strong>Hipótese a validar — não apresentar como pronta</strong>
+    Formulário digital prévio + checklist por situação do casal → o cidadão envia antes → chega ao
+    balcão com a documentação organizada → conferência assistida sinaliza o que falta.
+    <b>A decisão registral continua sendo do escrevente</b> — a ideia é só chegar com a papelada em ordem.
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> O que <b>não</b> pode ser automatizado aqui
+      <span class="dica">Onde a análise depende de juízo do registrador e nenhuma ferramenta pode
+      opinar. Anotar como limite duro.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:50%">O que exige decisão humana</th><th>Por quê</th></tr>
+        <tr><td><input type="text" name="hab_nunca1"></td><td><input type="text" name="hab_nunca1_pq"></td></tr>
+        <tr><td><input type="text" name="hab_nunca2"></td><td><input type="text" name="hab_nunca2_pq"></td></tr>
+        <tr><td><input type="text" name="hab_nunca3"></td><td><input type="text" name="hab_nunca3_pq"></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 4 -->
+<section>
+  <h2><span class="n">4.</span> Certidões e a fila de pedidos <span class="tempo">17 min</span></h2>
+  <p class="intro-secao">Aqui mora a dor transversal que já apareceu na Sessão 1: prazo de 5 dias,
+    caixa de e-mail única, sem etiqueta, sem responsável visível e sem alerta.</p>
+
+  <div class="q">
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:46%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">Por onde chegam os pedidos</td>
+            <td><input type="text" name="cert_canais" placeholder="balcão · e-mail · WhatsApp · central · site"></td></tr>
+        <tr><td class="rotulo">Quem recebe e quem distribui</td><td><input type="text" name="cert_quem"></td></tr>
+        <tr><td class="rotulo">Como a pessoa sabe qual é o prazo de cada pedido</td><td><input type="text" name="cert_prazo"></td></tr>
+        <tr><td class="rotulo">Existe fila organizada? Onde ela vive?</td><td><input type="text" name="cert_fila"></td></tr>
+        <tr><td class="rotulo">Alguém precisa cobrar? Quem cobra quem?</td><td><input type="text" name="cert_cobra"></td></tr>
+        <tr><td class="rotulo">Como percebem que um prazo está vencendo</td><td><input type="text" name="cert_alerta"></td></tr>
+        <tr><td class="rotulo">Já perdeu prazo? O que aconteceu?</td><td><input type="text" name="cert_perdeu"></td></tr>
+        <tr><td class="rotulo">Quanto do volume é eletrônico (central) e quanto é manual</td><td><input type="text" name="cert_eletronico"></td></tr>
+        <tr><td class="rotulo">Segunda via, inteiro teor, breve relato — mudam de rotina?</td><td><input type="text" name="cert_tipos"></td></tr>
+        <tr><td class="rotulo">Busca em acervo antigo: como é e quanto demora</td><td><input type="text" name="cert_busca"></td></tr>
+      </table>
+    </div>
+    <div class="aviso bom" style="margin-top:12px">
+      <strong>Anotar para o bloco 7</strong>
+      Quantas certidões por mês? Quanto tempo leva uma, da chegada do pedido à entrega?
+    </div>
+  </div>
+
+  <div class="aviso">
+    <strong>Amarração com a Sessão 1</strong>
+    A etiquetagem da caixa única de e-mail já entrou como candidata no diagnóstico do Protesto, e o
+    cartório usa <b>Gmail</b> — marcadores por setor e prazo, filtros e alerta de vencimento resolvem
+    sem sistema novo. Se aqui a dor se confirmar, essa automação deixa de ser “boa ideia” e
+    <b>vira prioridade</b>, porque passa a servir a duas atribuições.
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 5 -->
+<section>
+  <h2><span class="n">5.</span> Nascimento e óbito <span class="tempo">13 min</span></h2>
+
+  <div class="aviso risco">
+    <strong>Aqui a postura é observar, não propor</strong>
+    O fluxo de nascimento e óbito é o que mais tem integração nacional em movimento — declaração de
+    nascido vivo, declaração de óbito, unidade interligada, CPF na certidão, comunicações ao governo.
+    <b>Construir solução paralela para algo que está entrando em fluxo nacional é desperdício</b>, e
+    pior: cria dependência de nós numa função que vai ser nativa. Mapear bem e decidir depois.
+  </div>
+
+  <div class="q">
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:46%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">Como os dados chegam — a DNV e a DO entram por onde?</td><td><input type="text" name="nas_entrada"></td></tr>
+        <tr><td class="rotulo">Existe unidade interligada em hospital ou maternidade?</td><td><input type="text" name="nas_interligada"></td></tr>
+        <tr><td class="rotulo">O que ainda é digitado à mão</td><td><input type="text" name="nas_digita"></td></tr>
+        <tr><td class="rotulo">O que precisa ser conferido, e contra o quê</td><td><input type="text" name="nas_confere"></td></tr>
+        <tr><td class="rotulo">O CPF sai junto com a certidão de nascimento?</td><td><input type="text" name="nas_cpf"></td></tr>
+        <tr><td class="rotulo">Há devolução por dado errado? Qual erro mais aparece?</td><td><input type="text" name="nas_erro"></td></tr>
+        <tr><td class="rotulo">Registro tardio: com que frequência e o que muda na rotina</td><td><input type="text" name="nas_tardio"></td></tr>
+        <tr><td class="rotulo">Óbito: prazo, sepultamento, casos sem documentação completa</td><td><input type="text" name="obi_fluxo"></td></tr>
+        <tr><td class="rotulo">Por que vocês apontaram óbito e nascimento como os que mais consomem tempo?</td><td><textarea name="nas_porque"></textarea></td></tr>
+      </table>
+    </div>
+    <div class="aviso bom" style="margin-top:12px">
+      <strong>Anotar para o bloco 7</strong>
+      Quantos nascimentos e óbitos por mês? Tempo médio de cada um?
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 6 -->
+<section>
+  <h2><span class="n">6.</span> Averbações, retificações e comunicações obrigatórias <span class="tempo">13 min</span></h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Averbações e retificações
+      <span class="dica">O cartório citou retificações e reconhecimento de paternidade entre os que
+      mais consomem tempo.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:46%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">Por onde chegam — central, e-mail, judiciário, balcão</td><td><input type="text" name="ave_entrada"></td></tr>
+        <tr><td class="rotulo">Como controlam o que está pendente</td><td><input type="text" name="ave_pendencia"></td></tr>
+        <tr><td class="rotulo">Onde fica o documento enquanto tramita</td><td><input type="text" name="ave_doc"></td></tr>
+        <tr><td class="rotulo">Como sabem quem está com cada demanda</td><td><input type="text" name="ave_quem"></td></tr>
+        <tr><td class="rotulo">Existe lista de exigências padrão?</td><td><input type="text" name="ave_exigencias"></td></tr>
+        <tr><td class="rotulo">Que erro mais volta</td><td><input type="text" name="ave_erro"></td></tr>
+        <tr><td class="rotulo">Reconhecimento de paternidade: por que pesa tanto?</td><td><input type="text" name="ave_paternidade"></td></tr>
+        <tr><td class="rotulo">Retificação: quantas são erro nosso e quantas vêm de fora?</td><td><input type="text" name="ave_retificacao"></td></tr>
+        <tr><td class="rotulo">Estamos usando o e-Protocolo até onde ele permite?</td><td><input type="text" name="ave_eprotocolo"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Comunicações obrigatórias
+      <span class="dica">Foi citado no formulário inicial como peso. Cada ato lavrado dispara
+      comunicações — e é onde o esquecimento tem consequência.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:34%">Destino</th><th style="width:12%">Faz</th><th style="width:26%">Como (sistema, manual)</th><th>Quem controla e como sabe que saiu</th></tr>
+        <tr><td class="rotulo">INSS / governo federal</td><td class="centro"><input type="checkbox" name="com1"></td>
+            <td><input type="text" name="com1_c"></td><td><input type="text" name="com1_q"></td></tr>
+        <tr><td class="rotulo">Justiça Eleitoral</td><td class="centro"><input type="checkbox" name="com2"></td>
+            <td><input type="text" name="com2_c"></td><td><input type="text" name="com2_q"></td></tr>
+        <tr><td class="rotulo">IBGE</td><td class="centro"><input type="checkbox" name="com3"></td>
+            <td><input type="text" name="com3_c"></td><td><input type="text" name="com3_q"></td></tr>
+        <tr><td class="rotulo">Receita Federal</td><td class="centro"><input type="checkbox" name="com4"></td>
+            <td><input type="text" name="com4_c"></td><td><input type="text" name="com4_q"></td></tr>
+        <tr><td class="rotulo">Cartório de origem (anotações)</td><td class="centro"><input type="checkbox" name="com5"></td>
+            <td><input type="text" name="com5_c"></td><td><input type="text" name="com5_q"></td></tr>
+        <tr><td><input type="text" name="com6_nome" placeholder="Outro destino…"></td><td class="centro"><input type="checkbox" name="com6"></td>
+            <td><input type="text" name="com6_c"></td><td><input type="text" name="com6_q"></td></tr>
+      </table>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo" style="flex:1 1 100%"><label>Já escapou alguma comunicação? Como perceberam?</label>
+        <input type="text" name="com_escapou"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 7 -->
+<section>
+  <h2><span class="n">7.</span> O business case — volume × tempo <span class="tempo">12 min</span></h2>
+  <p class="intro-secao">O que faltou no diagnóstico do Protesto: saímos com o tempo por tarefa mas
+    sem o volume, e sem os dois não há como provar ganho. <b>Não saia daqui só com “é chato”.</b>
+    Preencha vezes por mês e minutos — as horas se calculam sozinhas.</p>
+
+  <div class="q">
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:34%">Atividade</th><th style="width:16%">Vezes por mês</th>
+            <th style="width:16%">Minutos cada</th><th style="width:16%">Horas/mês</th><th>Estimativa ou medido?</th></tr>
+        <tr class="bc"><td class="rotulo">Habilitação de casamento</td>
+            <td><input type="number" min="0" step="1" name="bc1_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc1_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc1_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Emissão de certidão</td>
+            <td><input type="number" min="0" step="1" name="bc2_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc2_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc2_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Registro de nascimento</td>
+            <td><input type="number" min="0" step="1" name="bc3_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc3_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc3_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Registro de óbito</td>
+            <td><input type="number" min="0" step="1" name="bc4_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc4_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc4_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Averbações</td>
+            <td><input type="number" min="0" step="1" name="bc5_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc5_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc5_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Retificações</td>
+            <td><input type="number" min="0" step="1" name="bc6_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc6_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc6_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Reconhecimento de paternidade</td>
+            <td><input type="number" min="0" step="1" name="bc7_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc7_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc7_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Comunicações obrigatórias</td>
+            <td><input type="number" min="0" step="1" name="bc8_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc8_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc8_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Responder dúvida repetida (WhatsApp/balcão)</td>
+            <td><input type="number" min="0" step="1" name="bc9_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc9_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc9_f"></td></tr>
+        <tr class="bc"><td><input type="text" name="bc10_nome" placeholder="Surgiu na reunião…"></td>
+            <td><input type="number" min="0" step="1" name="bc10_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc10_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc10_f"></td></tr>
+        <tr class="bc"><td><input type="text" name="bc11_nome" placeholder="Surgiu na reunião…"></td>
+            <td><input type="number" min="0" step="1" name="bc11_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc11_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc11_f"></td></tr>
+        <tr class="total"><td colspan="3">Total de horas por mês nas tarefas mapeadas</td>
+            <td class="horas" id="bc-total">—</td><td></td></tr>
+      </table>
+    </div>
+    <p class="dica" style="margin-top:8px">Estimativa serve. O que não serve é sair sem número —
+    é ele que vira a meta do piloto e a prova do ganho em janeiro.</p>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> As 10 dúvidas que mais se repetem
+      <span class="dica">Serviço a serviço: nascimento, casamento, óbito, segunda via, averbação,
+      retificação. Marque quando já existir resposta pronta.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:6%">#</th><th>Dúvida</th><th style="width:14%">Serviço</th><th style="width:16%">Já tem resposta pronta</th></tr>
+        <tr><td class="rotulo">1</td><td><input type="text" name="duv1"></td><td><input type="text" name="duv1_s"></td><td class="centro"><input type="checkbox" name="duv1_ok"></td></tr>
+        <tr><td class="rotulo">2</td><td><input type="text" name="duv2"></td><td><input type="text" name="duv2_s"></td><td class="centro"><input type="checkbox" name="duv2_ok"></td></tr>
+        <tr><td class="rotulo">3</td><td><input type="text" name="duv3"></td><td><input type="text" name="duv3_s"></td><td class="centro"><input type="checkbox" name="duv3_ok"></td></tr>
+        <tr><td class="rotulo">4</td><td><input type="text" name="duv4"></td><td><input type="text" name="duv4_s"></td><td class="centro"><input type="checkbox" name="duv4_ok"></td></tr>
+        <tr><td class="rotulo">5</td><td><input type="text" name="duv5"></td><td><input type="text" name="duv5_s"></td><td class="centro"><input type="checkbox" name="duv5_ok"></td></tr>
+        <tr><td class="rotulo">6</td><td><input type="text" name="duv6"></td><td><input type="text" name="duv6_s"></td><td class="centro"><input type="checkbox" name="duv6_ok"></td></tr>
+        <tr><td class="rotulo">7</td><td><input type="text" name="duv7"></td><td><input type="text" name="duv7_s"></td><td class="centro"><input type="checkbox" name="duv7_ok"></td></tr>
+        <tr><td class="rotulo">8</td><td><input type="text" name="duv8"></td><td><input type="text" name="duv8_s"></td><td class="centro"><input type="checkbox" name="duv8_ok"></td></tr>
+        <tr><td class="rotulo">9</td><td><input type="text" name="duv9"></td><td><input type="text" name="duv9_s"></td><td class="centro"><input type="checkbox" name="duv9_ok"></td></tr>
+        <tr><td class="rotulo">10</td><td><input type="text" name="duv10"></td><td><input type="text" name="duv10_s"></td><td class="centro"><input type="checkbox" name="duv10_ok"></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 8 -->
+<section>
+  <h2><span class="n">8.</span> Priorização e piloto <span class="tempo">no fechamento</span></h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Priorização — preencher junto com a equipe
+      <span class="dica">Alto / Médio / Baixo. A ordem sai da conversa, não da nossa cabeça.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:38%">Oportunidade</th><th style="width:14%">Impacto</th>
+            <th style="width:14%">Facilidade</th><th style="width:12%">Risco</th><th>Ordem</th></tr>
+        <tr><td class="rotulo">Formulário prévio + checklist de habilitação de casamento</td>
+            <td><input type="text" name="pr1_i"></td><td><input type="text" name="pr1_f"></td>
+            <td><input type="text" name="pr1_r"></td><td><input type="text" name="pr1_o"></td></tr>
+        <tr><td class="rotulo">Fila de certidões com etiqueta, responsável e prazo (Gmail)</td>
+            <td><input type="text" name="pr2_i"></td><td><input type="text" name="pr2_f"></td>
+            <td><input type="text" name="pr2_r"></td><td><input type="text" name="pr2_o"></td></tr>
+        <tr><td class="rotulo">Respostas padronizadas por serviço no WhatsApp</td>
+            <td><input type="text" name="pr3_i"></td><td><input type="text" name="pr3_f"></td>
+            <td><input type="text" name="pr3_r"></td><td><input type="text" name="pr3_o"></td></tr>
+        <tr><td class="rotulo">Material de orientação ao cidadão (QR Code, cartaz, “o que trazer”)</td>
+            <td><input type="text" name="pr4_i"></td><td><input type="text" name="pr4_f"></td>
+            <td><input type="text" name="pr4_r"></td><td><input type="text" name="pr4_o"></td></tr>
+        <tr><td class="rotulo">Controle das comunicações obrigatórias</td>
+            <td><input type="text" name="pr5_i"></td><td><input type="text" name="pr5_f"></td>
+            <td><input type="text" name="pr5_r"></td><td><input type="text" name="pr5_o"></td></tr>
+        <tr><td class="rotulo">Conferência assistida de documentos</td>
+            <td><input type="text" name="pr6_i"></td><td><input type="text" name="pr6_f"></td>
+            <td><input type="text" name="pr6_r"></td><td><input type="text" name="pr6_o"></td></tr>
+        <tr><td class="rotulo">Integração com a central / API do sistema</td>
+            <td><input type="text" name="pr7_i"></td><td><input type="text" name="pr7_f"></td>
+            <td><input type="text" name="pr7_r"></td><td><input type="text" name="pr7_o"></td></tr>
+        <tr><td><input type="text" name="pr8_nome" placeholder="Surgiu na reunião…"></td>
+            <td><input type="text" name="pr8_i"></td><td><input type="text" name="pr8_f"></td>
+            <td><input type="text" name="pr8_r"></td><td><input type="text" name="pr8_o"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Piloto 1 — fechar ainda na reunião</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:32%">Campo</th><th>Definição</th></tr>
+        <tr><td class="rotulo">O que é</td><td><input type="text" name="p1_oque"></td></tr>
+        <tr><td class="rotulo">Por que este primeiro</td><td><textarea name="p1_porque"></textarea></td></tr>
+        <tr><td class="rotulo">O que ENTRA no escopo</td><td><textarea name="p1_entra"></textarea></td></tr>
+        <tr><td class="rotulo">O que NÃO entra</td><td><textarea name="p1_naoentra"></textarea></td></tr>
+        <tr><td class="rotulo">Responsável no cartório</td><td><input type="text" name="p1_resp_cart"></td></tr>
+        <tr><td class="rotulo">Responsável Maestros do Direito</td><td><input type="text" name="p1_resp_md"></td></tr>
+        <tr><td class="rotulo">O que precisamos receber, e até quando</td><td><textarea name="p1_receber"></textarea></td></tr>
+        <tr><td class="rotulo">Indicador e meta <span class="dica">use o número do bloco 7</span></td><td><input type="text" name="p1_indicador"></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 9 -->
+<section>
+  <h2><span class="n">9.</span> Fechamento <span class="tempo">10 min</span></h2>
+
+  <div class="fala">
+    <strong>As duas perguntas de fechamento — nesta ordem</strong>
+    “De tudo que vimos hoje, qual tarefa, se a gente melhorar primeiro, vai fazer a equipe sentir
+    diferença já na próxima semana?”<br><br>
+    E logo em seguida, sem deixar passar: “essa tarefa acontece quantas vezes por mês e quanto tempo
+    leva hoje?”
+  </div>
+
+  <div class="q">
+    <div class="linha-campos">
+      <div class="campo" style="flex:1 1 100%"><label>A tarefa que faria diferença já na próxima semana</label>
+        <input type="text" name="fech_tarefa"></div>
+    </div>
+    <div class="linha-campos" style="margin-top:10px">
+      <div class="campo"><label>Vezes por mês</label><input type="text" name="fech_vezes"></div>
+      <div class="campo"><label>Tempo cada</label><input type="text" name="fech_tempo"></div>
+      <div class="campo"><label>Horas/mês que isso representa</label><input type="text" name="fech_horas"></div>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Pendências combinadas</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:56%">O que ficou de ser enviado / feito</th><th style="width:24%">Quem</th><th>Até quando</th></tr>
+        <tr><td><input type="text" name="pend1"></td><td><input type="text" name="pend1_q"></td><td><input type="text" name="pend1_p"></td></tr>
+        <tr><td><input type="text" name="pend2"></td><td><input type="text" name="pend2_q"></td><td><input type="text" name="pend2_p"></td></tr>
+        <tr><td><input type="text" name="pend3"></td><td><input type="text" name="pend3_q"></td><td><input type="text" name="pend3_p"></td></tr>
+        <tr><td><input type="text" name="pend4"></td><td><input type="text" name="pend4_q"></td><td><input type="text" name="pend4_p"></td></tr>
+        <tr><td><input type="text" name="pend5"></td><td><input type="text" name="pend5_q"></td><td><input type="text" name="pend5_p"></td></tr>
+        <tr><td><input type="text" name="pend6"></td><td><input type="text" name="pend6_q"></td><td><input type="text" name="pend6_p"></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== curingas -->
+<section class="nao-imprimir">
+  <h2><span class="n">·</span> Perguntas curinga — se a conversa travar</h2>
+  <div class="q">
+    <ol class="curinga">
+      <li>Qual atividade mais toma tempo aqui?</li>
+      <li>Qual gera mais retrabalho?</li>
+      <li>Qual faz o cidadão voltar por falta de documento?</li>
+      <li>Onde vocês digitam informação que já existe em outro lugar?</li>
+      <li>Onde ainda usam papel ou anotação paralela?</li>
+      <li>O que chega por WhatsApp e depois precisa ser passado para o sistema?</li>
+      <li>Que serviço mais gera fila?</li>
+      <li>Que serviço mais gera reclamação?</li>
+      <li>Qual prazo vocês têm mais medo de perder?</li>
+      <li>O que depende de conferência de uma pessoa específica?</li>
+      <li><b>O que a central já faz e mesmo assim vocês refazem à mão?</b></li>
+    </ol>
+  </div>
+  <div class="aviso">
+    <strong>Regra de ouro desta sessão</strong>
+    Não procurar IA. <b>Procurar desperdício.</b> Quando achar o desperdício, aí sim se decide se a
+    resposta é IA, integração, regra, formulário, QR Code — ou simplesmente processo melhor. E ao
+    ouvir “isso é rápido”, pergunte quantas vezes por dia.
+  </div>
+</section>
+
+<!-- =========================================================== síntese -->
+<section>
+  <h2><span class="n">10.</span> Síntese para o Rodrigo</h2>
+  <p class="intro-secao">Preencher logo depois da reunião, ainda com a memória quente. É o bloco que
+    vai para a construção — o botão <b>Copiar resumo</b> leva tudo junto.</p>
+  <div class="q">
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:34%">Item</th><th>Registro</th></tr>
+        <tr><td class="rotulo">O fluxo do RCPN em uma linha</td><td><textarea name="sin_fluxo"></textarea></td></tr>
+        <tr><td class="rotulo"><b>O que a central já resolve</b> — e que não devemos tocar</td><td><textarea name="sin_central"></textarea></td></tr>
+        <tr><td class="rotulo">Os três gargalos confirmados</td><td><textarea name="sin_gargalos"></textarea></td></tr>
+        <tr><td class="rotulo">Gargalos novos, que o formulário inicial não mostrava</td><td><textarea name="sin_novos"></textarea></td></tr>
+        <tr><td class="rotulo">Business case: a conta de horas/mês fechada</td><td><textarea name="sin_bc"></textarea></td></tr>
+        <tr><td class="rotulo">Piloto 1 e o motivo da escolha</td><td><textarea name="sin_piloto"></textarea></td></tr>
+        <tr><td class="rotulo">Pré-requisitos técnicos (API, exportação, acesso, integração com a central)</td><td><textarea name="sin_prereq"></textarea></td></tr>
+        <tr><td class="rotulo">O que NÃO pode ser automatizado — decisão registral</td><td><textarea name="sin_naoauto"></textarea></td></tr>
+        <tr><td class="rotulo">O que é problema de processo, não de tecnologia</td><td><textarea name="sin_processo"></textarea></td></tr>
+        <tr><td class="rotulo">O que muda no diagnóstico do Protesto por causa desta sessão</td><td><textarea name="sin_cruza"></textarea></td></tr>
+        <tr><td class="rotulo">Materiais recebidos</td><td><textarea name="sin_materiais"></textarea></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+</form>
+
+<footer>
+  Maestros do Direito · orquestrando a IA &nbsp;|&nbsp; Tecnologia que transforma. Pessoas que entregam.
+</footer>
+
+</div>
+
+<div class="barra nao-imprimir">
+  <button type="button" id="btn-crono">▶ Iniciar</button>
+  <span class="relogio" id="relogio">00:00</span>
+  <span class="agora" id="agora">bloco previsto: <b>—</b></span>
+  <span class="contador" id="contador">essenciais: <b>0/5</b></span>
+  <button type="button" class="secundario" id="btn-copiar">Copiar resumo</button>
+  <button type="button" class="secundario" id="btn-pdf">Salvar em PDF</button>
+  <button type="button" class="secundario" id="btn-limpar">Limpar</button>
+  <span class="salvo" id="status">Salva sozinho neste navegador.</span>
+</div>
+
+<script>
+(function(){
+  var CHAVE  = "md-rcpn-conducao-v1";
+  var CRONO  = "md-rcpn-crono-v1";
+  var form   = document.getElementById("formulario");
+  var status = document.getElementById("status");
+  var campos = form.querySelectorAll("input, textarea, select");
+
+  /* ---------------------------------------------------------------- salvar */
+  function ler(){
+    try { return JSON.parse(localStorage.getItem(CHAVE) || "{}"); }
+    catch(e){ return {}; }
+  }
+
+  var dados = ler();
+  campos.forEach(function(c){
+    if(!c.name) return;
+    if(c.type === "checkbox"){ if(dados[c.name] === true) c.checked = true; }
+    else if(c.type === "radio"){ if(dados[c.name] === c.value) c.checked = true; }
+    else if(typeof dados[c.name] === "string" && dados[c.name] !== ""){ c.value = dados[c.name]; }
+  });
+
+  var timer;
+  function salvar(){
+    var pacote = {};
+    campos.forEach(function(c){
+      if(!c.name) return;
+      if(c.type === "checkbox"){ pacote[c.name] = c.checked; }
+      else if(c.type === "radio"){ if(c.checked) pacote[c.name] = c.value; }
+      else { pacote[c.name] = c.value; }
+    });
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(pacote));
+      status.textContent = "Salvo às " +
+        new Date().toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit"});
+    } catch(e){
+      status.textContent = "NÃO está salvando — copie o resumo antes de fechar.";
+    }
+  }
+
+  form.addEventListener("input",  function(){ clearTimeout(timer); timer = setTimeout(salvar, 400); calcular(); });
+  form.addEventListener("change", function(){ clearTimeout(timer); timer = setTimeout(salvar, 150); contarEssenciais(); });
+
+  try { localStorage.setItem(CHAVE + "-teste", "1"); localStorage.removeItem(CHAVE + "-teste"); }
+  catch(e){
+    status.textContent = "Este navegador não salva — use o Chrome ou copie o resumo ao final.";
+    status.style.color = "#F0C7B8";
+  }
+
+  /* ------------------------------------------------------------ essenciais */
+  var essenciais = form.querySelectorAll(".essencial");
+  var contador = document.getElementById("contador");
+  function contarEssenciais(){
+    var n = 0;
+    essenciais.forEach(function(c){ if(c.checked) n++; });
+    contador.innerHTML = "essenciais: <b>" + n + "/5</b>";
+  }
+  contarEssenciais();
+
+  /* ------------------------------------------------ calculadora do business case */
+  var linhasBC = form.querySelectorAll("tr.bc");
+  var totalBC  = document.getElementById("bc-total");
+  function calcular(){
+    var total = 0;
+    linhasBC.forEach(function(tr){
+      var v = parseFloat((tr.querySelector('[data-bc="vezes"]') || {}).value);
+      var m = parseFloat((tr.querySelector('[data-bc="min"]') || {}).value);
+      var cel = tr.querySelector('[data-bc="h"]');
+      if(!cel) return;
+      if(isNaN(v) || isNaN(m) || v <= 0 || m <= 0){ cel.textContent = "—"; return; }
+      var h = (v * m) / 60;
+      total += h;
+      cel.textContent = h.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + " h";
+    });
+    totalBC.textContent = total > 0
+      ? total.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + " h/mês"
+      : "—";
+  }
+  calcular();
+
+  /* ------------------------------------------------------- textareas crescem */
+  function ajustar(t){ t.style.height = "auto"; t.style.height = (t.scrollHeight + 2) + "px"; }
+  var areas = form.querySelectorAll("textarea");
+  areas.forEach(function(t){ ajustar(t); t.addEventListener("input", function(){ ajustar(t); }); });
+  window.addEventListener("beforeprint", function(){
+    areas.forEach(ajustar);
+    document.querySelectorAll("details").forEach(function(d){ d.open = false; });
+  });
+
+  /* --------------------------------------------------------------- cronômetro */
+  var BLOCOS = [
+    ["1 · Abertura e confirmação",        12],
+    ["2 · O que já está resolvido",       40],
+    ["3 · Habilitação de casamento",      65],
+    ["4 · Certidões e a fila",            82],
+    ["5 · Nascimento e óbito",            95],
+    ["6 · Averbações e comunicações",    108],
+    ["7-8 · Business case e piloto",     120],
+    ["9 · Fechamento",                   130]
+  ];
+  var relogio = document.getElementById("relogio");
+  var agora   = document.getElementById("agora");
+  var btnCrono = document.getElementById("btn-crono");
+  var inicio = null, tique = null;
+
+  try { var g = localStorage.getItem(CRONO); if(g) inicio = parseInt(g, 10); } catch(e){}
+
+  function pinta(){
+    if(!inicio){ return; }
+    var seg = Math.floor((Date.now() - inicio) / 1000);
+    var m = Math.floor(seg / 60), s = seg % 60;
+    relogio.textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    var nome = "encerrado";
+    for(var i = 0; i < BLOCOS.length; i++){
+      if(m < BLOCOS[i][1]){ nome = BLOCOS[i][0]; break; }
+    }
+    agora.innerHTML = "bloco previsto: <b>" + nome + "</b>";
+  }
+  function roda(){ if(tique) clearInterval(tique); tique = setInterval(pinta, 1000); pinta(); }
+  if(inicio){ btnCrono.textContent = "⟲ Reiniciar"; roda(); }
+
+  btnCrono.addEventListener("click", function(){
+    if(inicio && !confirm("Reiniciar o cronômetro do zero?")) return;
+    inicio = Date.now();
+    try { localStorage.setItem(CRONO, String(inicio)); } catch(e){}
+    btnCrono.textContent = "⟲ Reiniciar";
+    roda();
+  });
+
+  /* ------------------------------------------------------------ copiar resumo */
+  function textoDe(el){ return (el.textContent || "").replace(/\s+/g, " ").trim(); }
+
+  function tituloDe(el){
+    var c = el.cloneNode(true);
+    c.querySelectorAll(".dica").forEach(function(d){ d.remove(); });
+    return textoDe(c).replace(/^›\s*/, "").replace(/^\d+\.\s*/, "");
+  }
+
+  function rotuloGrupo(w){
+    var p = w.previousElementSibling, n = 0;
+    while(p && n < 3){
+      if(p.classList.contains("sub")) return textoDe(p);
+      p = p.previousElementSibling; n++;
+    }
+    return "";
+  }
+
+  function valorDe(c){
+    if(c.type === "checkbox") return c.checked ? "sim" : "";
+    if(c.type === "radio")    return c.checked ? c.value : "";
+    return (c.value || "").trim();
+  }
+
+  function rotuloCelula(tr, celula){
+    var tabela = tr.closest("table");
+    var cab = tabela ? tabela.querySelector("tr:first-child") : null;
+    var idx = Array.prototype.indexOf.call(tr.cells, celula);
+    if(cab && cab.cells[idx]){
+      var c = cab.cells[idx].cloneNode(true);
+      c.querySelectorAll(".dica").forEach(function(d){ d.remove(); });
+      return textoDe(c);
+    }
+    return "sim";
+  }
+
+  function montarResumo(){
+    var out = ["# Diagnóstico RCPN — Cartório Bandeira (Canaã dos Carajás/PA)", ""];
+
+    form.querySelectorAll("section").forEach(function(sec){
+      var h = sec.querySelector("h2");
+      var linhas = [];
+
+      sec.querySelectorAll(".q").forEach(function(q){
+        var titulo = q.querySelector(".pergunta");
+        var bloco = [];
+
+        q.querySelectorAll("tr").forEach(function(tr){
+          var cs = tr.querySelectorAll("input, textarea, select");
+          if(!cs.length) return;
+          var vals = [];
+          cs.forEach(function(c){
+            var v = valorDe(c);
+            if(!v) return;
+            if(c.type === "checkbox"){ vals.push(rotuloCelula(tr, c.closest("td"))); }
+            else { vals.push(v); }
+          });
+          // horas calculadas entram no resumo
+          var ch = tr.querySelector('[data-bc="h"]');
+          if(ch && ch.textContent !== "—") vals.push("= " + ch.textContent);
+          if(!vals.length) return;
+          var rot = tr.querySelector("td.rotulo");
+          bloco.push("- " + (rot ? textoDe(rot) + ": " : "") + vals.join(" | "));
+        });
+
+        q.querySelectorAll(".campo, .opcoes, .outro").forEach(function(w){
+          var grupo = w.classList.contains("campo") ? "" : rotuloGrupo(w);
+          w.querySelectorAll("input, textarea, select").forEach(function(c){
+            var v = valorDe(c);
+            if(!v) return;
+            var lab = c.closest("label");
+            if(c.type === "checkbox" || c.type === "radio"){
+              bloco.push("- " + (grupo ? grupo + ": " : "") + (lab ? textoDe(lab) : c.name));
+            } else {
+              var l = w.querySelector("label");
+              var rot = l ? textoDe(l) : grupo;
+              bloco.push("- " + (rot ? rot + ": " : "") + v);
+            }
+          });
+        });
+
+        q.querySelectorAll(":scope > textarea, :scope > input").forEach(function(c){
+          var v = valorDe(c);
+          if(!v) return;
+          bloco.push("- " + v);
+        });
+        q.querySelectorAll(".check input").forEach(function(c){
+          if(!c.checked) return;
+          var lab = c.closest("label");
+          var t = "- [x] " + (lab ? textoDe(lab) : c.name);
+          if(bloco.indexOf(t) === -1) bloco.push(t);
+        });
+
+        if(bloco.length){
+          if(titulo) linhas.push("**" + tituloDe(titulo) + "**");
+          linhas = linhas.concat(bloco, "");
+        }
+      });
+
+      if(linhas.length && h){
+        out.push("## " + textoDe(h).replace(/\s*(\d+\s*min|no fechamento)$/, "").trim(), "");
+        out = out.concat(linhas);
+      }
+    });
+
+    if(totalBC && totalBC.textContent !== "—"){
+      out.push("", "**TOTAL DO BUSINESS CASE: " + totalBC.textContent + "**");
+    }
+    out.push("", "_Gerado pelo formulário de condução — Maestros do Direito._");
+    return out.join("\n");
+  }
+
+  document.getElementById("btn-copiar").addEventListener("click", function(){
+    var txt = montarResumo();
+    function feito(){ status.textContent = "Resumo copiado — cole na mensagem para o grupo."; }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(feito, function(){ manual(txt); });
+    } else { manual(txt); }
+  });
+
+  function manual(txt){
+    var t = document.createElement("textarea");
+    t.value = txt;
+    t.style.position = "fixed"; t.style.top = "10%"; t.style.left = "5%";
+    t.style.width = "90%"; t.style.height = "70%"; t.style.zIndex = "99";
+    document.body.appendChild(t);
+    t.select();
+    try { document.execCommand("copy"); status.textContent = "Resumo copiado."; }
+    catch(e){ status.textContent = "Selecione o texto da caixa e copie."; }
+    setTimeout(function(){ t.remove(); }, 400);
+  }
+
+  /* ------------------------------------------------------------------ botões */
+  document.getElementById("btn-pdf").addEventListener("click", function(){
+    areas.forEach(ajustar);
+    window.print();
+  });
+
+  document.getElementById("btn-limpar").addEventListener("click", function(){
+    if(!confirm("Apagar tudo o que foi preenchido neste formulário?")) return;
+    try { localStorage.removeItem(CHAVE); localStorage.removeItem(CRONO); } catch(e){}
+    campos.forEach(function(c){
+      if(c.type === "checkbox" || c.type === "radio"){ c.checked = false; }
+      else if(["sala1_nome","sala1_funcao","sala1_papel"].indexOf(c.name) === -1){ c.value = ""; }
+    });
+    areas.forEach(ajustar);
+    contarEssenciais();
+    calcular();
+    status.textContent = "Formulário limpo.";
+  });
+})();
+</script>
+</body>
+</html>
