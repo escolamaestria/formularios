@@ -1,0 +1,1509 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Diagnóstico Gestão e Atendimento — condução da sessão</title>
+<style>
+  :root{
+    --marinho:#15293D; --dourado:#C4A24C; --creme:#F5F1E7; --cinza:#5C6470;
+    --linha:#D9D3C4; --branco:#FFFFFF; --alerta:#8C2F1F; --verde:#2E6B4F;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--creme);color:var(--marinho);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.55;}
+  .folha{max-width:920px;margin:0 auto;padding:32px 24px 90px;}
+
+  header{border-bottom:3px solid var(--dourado);padding-bottom:20px;margin-bottom:22px;}
+  .marca{font-weight:700;font-size:15px;letter-spacing:.06em;}
+  .descritor{font-style:italic;color:var(--dourado);font-size:13px;margin-top:2px;}
+  .sobretitulo{color:var(--dourado);font-weight:700;font-size:12px;
+    letter-spacing:.12em;text-transform:uppercase;margin-top:22px;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:32px;line-height:1.15;
+    margin:6px 0 8px;font-weight:700;}
+  .abertura{font-size:15.5px;color:var(--cinza);margin:0 0 10px;max-width:72ch;}
+  .abertura b{color:var(--marinho);}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:14px;font-size:13px;color:var(--cinza);}
+  .meta b{color:var(--marinho);}
+
+  section{margin-bottom:26px;}
+  h2{font-family:Georgia,"Times New Roman",serif;font-size:21px;margin:0 0 6px;
+    padding-bottom:6px;border-bottom:2px solid var(--dourado);
+    display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  h2 .n{color:var(--dourado);}
+  h2 .tempo{margin-left:auto;font-family:inherit;font-size:12px;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--branco);
+    background:var(--marinho);padding:3px 10px;border-radius:11px;}
+  .intro-secao{font-size:14px;color:var(--cinza);margin:0 0 14px;max-width:76ch;}
+
+  .q{background:var(--branco);border:1px solid var(--linha);padding:14px 16px;margin-bottom:12px;}
+  .q > .pergunta{font-size:15px;font-weight:600;margin:0 0 10px;display:flex;gap:8px;}
+  .q > .pergunta .num{color:var(--dourado);font-weight:700;flex:none;}
+  .dica{display:block;font-weight:400;color:var(--cinza);font-size:13px;margin-top:2px;}
+  .sub{font-size:13.5px;font-weight:600;margin:12px 0 6px;color:var(--marinho);}
+  .linha-campos{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end;}
+  .campo{flex:1 1 190px;min-width:140px;}
+  .campo > label{display:block;font-size:12.5px;font-weight:600;color:var(--cinza);margin-bottom:3px;}
+
+  input[type=text],input[type=number],input[type=date],input[type=time],textarea,select{
+    width:100%;font:inherit;font-size:15px;color:var(--marinho);background:var(--branco);
+    border:1px solid var(--linha);border-radius:3px;padding:8px 10px;}
+  input[type=number]{max-width:170px;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--dourado);
+    box-shadow:0 0 0 2px rgba(196,162,76,.25);}
+  textarea{resize:vertical;min-height:58px;}
+  select{cursor:pointer;}
+
+  .opcoes{display:flex;flex-wrap:wrap;gap:8px 20px;}
+  .opcoes.duas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 20px;}
+  @media (max-width:640px){.opcoes.duas{grid-template-columns:1fr;}}
+  .opcoes label{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;cursor:pointer;}
+  input[type=radio],input[type=checkbox]{accent-color:var(--dourado);width:18px;height:18px;
+    margin:1px 0 0;flex:none;cursor:pointer;}
+  .outro{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .outro input[type=text]{max-width:420px;}
+
+  .check{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;cursor:pointer;
+    background:var(--branco);border:1px solid var(--linha);padding:9px 12px;margin-bottom:7px;}
+  .check:hover{border-color:var(--dourado);}
+  .check input:checked ~ span{color:var(--cinza);text-decoration:line-through;}
+
+  .rolagem{overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px;}
+  th{background:var(--marinho);color:#fff;text-align:left;font-size:11.5px;
+    letter-spacing:.04em;padding:8px 10px;font-weight:600;}
+  td{border:1px solid var(--linha);padding:0;background:var(--branco);vertical-align:top;}
+  td.rotulo{padding:9px 10px;font-weight:600;background:#FBF9F3;font-size:13.5px;}
+  td.centro{text-align:center;padding:8px 4px;}
+  td input,td textarea,td select{border:none;border-radius:0;background:transparent;font-size:14px;}
+  td input:focus,td textarea:focus,td select:focus{box-shadow:inset 0 0 0 2px rgba(196,162,76,.35);}
+  td textarea{min-height:44px;}
+  td.horas{padding:9px 10px;font-weight:700;text-align:right;background:#FBF9F3;
+    font-variant-numeric:tabular-nums;color:var(--marinho);}
+  tr.total td{background:var(--marinho);color:#fff;font-weight:700;padding:10px;}
+  tr.total td.horas{background:var(--marinho);color:var(--dourado);font-size:16px;}
+
+  .aviso{background:var(--branco);border-left:4px solid var(--dourado);
+    padding:14px 16px;margin:0 0 18px;font-size:14.5px;}
+  .aviso strong{display:block;color:var(--dourado);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+  .aviso.risco{border-left-color:var(--alerta);background:#FBEDEA;}
+  .aviso.risco strong{color:var(--alerta);}
+  .aviso.bom{border-left-color:var(--verde);background:#EAF2ED;}
+  .aviso.bom strong{color:var(--verde);}
+  .fala{background:#FBF9F3;border:1px solid var(--linha);border-left:4px solid var(--marinho);
+    padding:14px 16px;margin:0 0 16px;font-size:15px;font-style:italic;}
+  .fala strong{display:block;font-style:normal;color:var(--marinho);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+
+  details{background:#FBF9F3;border:1px dashed var(--linha);padding:8px 12px;margin-top:10px;}
+  details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--dourado);
+    letter-spacing:.04em;text-transform:uppercase;}
+  details p{margin:8px 0 2px;font-size:13.5px;color:var(--cinza);}
+
+  ol.curinga{margin:0;padding-left:22px;}
+  ol.curinga li{margin-bottom:6px;font-size:14.5px;}
+
+  .barra{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--marinho);color:#fff;
+    padding:10px 20px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;}
+  button{font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;border-radius:3px;
+    padding:8px 14px;border:1px solid var(--dourado);background:var(--dourado);color:var(--marinho);}
+  button.secundario{background:transparent;color:#fff;border-color:rgba(255,255,255,.45);}
+  button:hover{opacity:.88;}
+  .relogio{font-variant-numeric:tabular-nums;font-weight:700;font-size:17px;min-width:62px;}
+  .agora{font-size:12.5px;color:#D9D3C4;} .agora b{color:var(--dourado);}
+  .salvo{font-size:12px;color:#B9C0C9;margin-left:auto;}
+  .contador{font-size:12.5px;color:#D9D3C4;} .contador b{color:var(--dourado);}
+
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--linha);
+    font-size:11.5px;letter-spacing:.05em;color:var(--cinza);text-align:center;text-transform:uppercase;}
+
+  @media print{
+    @page{size:A4;margin:13mm;}
+    body{background:#fff;font-size:10pt;}
+    .folha{max-width:none;padding:0;}
+    .barra,.nao-imprimir{display:none !important;}
+    .q,.aviso,.fala,tr{break-inside:avoid;}
+    h2{break-after:avoid;}
+    .q{border:none;border-bottom:1px solid #E2E2E2;padding:7px 0;}
+    input[type=text],input[type=number],input[type=date],input[type=time],textarea,select{
+      border:none;border-bottom:1px solid #BBB;border-radius:0;background:transparent;padding:2px 0;}
+    textarea{min-height:40px;}
+    td input,td textarea,td select{border-bottom:none;}
+    .check{border:none;padding:2px 0;}
+    details{border:none;background:transparent;padding:0;} details summary{display:none;}
+    th,tr.total td{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    input[type=radio],input[type=checkbox]{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<header>
+  <div class="marca">MAESTROS DO DIREITO</div>
+  <div class="descritor">orquestrando a IA</div>
+  <div class="sobretitulo">Mentoria · Diagnóstico · Sessão transversal</div>
+  <h1>Gestão e Atendimento</h1>
+  <p class="abertura">Formulário de <b>condução</b> — preencher durante o encontro. Clique nas caixas,
+  digite nos campos. Esta é a única das quatro sessões que <b>não olha uma atribuição</b>: olha o que
+  RCPN, Protesto e Notas dividem entre si.</p>
+  <div class="meta">
+    <span><b>Serventia:</b> Cartório Bandeira — Canaã dos Carajás/PA</span>
+    <span><b>Duração:</b> 2 horas</span>
+    <span><b>Base:</b> formulário inicial + Protesto (07/08) + o RCPN da mesma manhã</span>
+  </div>
+</header>
+
+<div class="aviso nao-imprimir">
+  <strong>Como usar</strong>
+  Salva sozinho neste navegador — use o <b>Chrome</b>. O cronômetro embaixo mostra em que bloco você
+  deveria estar. Ao terminar: <b>Copiar resumo</b> gera o texto pronto para o grupo, e
+  <b>Salvar em PDF</b> arquiva. Não digite nome, CPF ou dado de usuário do cartório.
+</div>
+
+<div class="aviso risco nao-imprimir">
+  <strong>A tese desta sessão</strong>
+  Os maiores ganhos de gestão provavelmente <b>não estão dentro de cada atribuição</b> — estão nas
+  camadas compartilhadas: atendimento, WhatsApp, e-mail, prazos, pagamentos, distribuição de
+  demanda, padronização e acompanhamento. Foi exatamente o que a Sessão 1 mostrou: o núcleo técnico
+  do Protesto já é automático, e todo o atrito estava nas bordas — orçamento, WhatsApp, e-mail,
+  rateio de pagamento. Aqui a pergunta não é “como funciona o ato”, é
+  <b>“quem recebe, quem faz, em quanto tempo, onde fica registrado e como sabemos que terminou”</b>.
+</div>
+
+<div class="aviso bom nao-imprimir">
+  <strong>Uma solução daqui vale por três</strong>
+  Toda melhoria desta sessão atinge RCPN, Protesto e Notas ao mesmo tempo — e consome
+  <b>um</b> dos 12 encontros, não três. O contrato prevê 2 encontros de Gestão e Atendimento mais
+  1 livre, e permite redistribuir conforme a prioridade do diagnóstico (cláusula 2.3.1). É o
+  argumento comercial e operacional para começar por aqui.
+</div>
+
+<div class="aviso nao-imprimir">
+  <strong>Duas sessões no mesmo dia — 2h + 2h</strong>
+  <b>Rodar o RCPN primeiro e a gestão depois</b>, não o contrário: a sessão transversal é a que
+  fecha o raciocínio, e ela fica muito melhor com o RCPN fresco na cabeça — o bloco 1 tem uma tabela
+  para puxar os achados da manhã. Três cuidados: (1) o business case da manhã (bloco 7 do RCPN) não
+  se repete aqui — a tabela do bloco 5 é só da camada compartilhada, para não contar a mesma hora
+  duas vezes; (2) a sala muda entre uma sessão e outra — aqui precisam entrar recepção, financeiro e
+  uma referência de Notas, que não estavam de manhã; (3) são 4 horas de reunião para a mesma equipe:
+  se a sessão da manhã atrasar, o bloco a sacrificar aqui é o 3.5 (conhecimento), nunca o 2 nem o 6.
+</div>
+
+<form id="formulario">
+
+<!-- =========================================================== SEÇÃO 0 -->
+<section>
+  <h2><span class="n">0.</span> Registro do encontro</h2>
+
+  <div class="q">
+    <div class="linha-campos">
+      <div class="campo"><label>Data</label><input type="date" name="data"></div>
+      <div class="campo"><label>Início</label><input type="time" name="inicio"></div>
+      <div class="campo"><label>Quem conduz</label><input type="text" name="conduz"></div>
+      <div class="campo"><label>Quem registra</label><input type="text" name="registra"></div>
+    </div>
+    <p class="sub">Formato</p>
+    <div class="opcoes">
+      <label><input type="radio" name="formato" value="Presencial"><span>Presencial</span></label>
+      <label><input type="radio" name="formato" value="Remoto"><span>Remoto</span></label>
+      <label><input type="radio" name="formato" value="Híbrido"><span>Híbrido</span></label>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Quem está na sala
+      <span class="dica">Esta é a sessão que mais depende de <b>quem</b> está presente. Precisam
+      estar: o tabelião, o gestor geral (Júnior), a recepção — quem tria o WhatsApp geral e o balcão —
+      e uma referência de cada atribuição. Sem alguém de Notas na sala, um terço da conversa vira
+      suposição.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:30%">Nome</th><th style="width:24%">Função</th>
+            <th>O que faz na camada compartilhada</th><th style="width:9%">Presente</th></tr>
+        <tr><td><input type="text" name="sala1_nome" value="Kélcio"></td>
+            <td><input type="text" name="sala1_funcao" value="tabelião"></td>
+            <td><input type="text" name="sala1_papel" value="decide e recebe (ou não) a informação"></td>
+            <td class="centro"><input type="checkbox" name="sala1_ok"></td></tr>
+        <tr><td><input type="text" name="sala2_nome" value="Sebastião Júnior"></td>
+            <td><input type="text" name="sala2_funcao" value="substituto / gestor geral"></td>
+            <td><input type="text" name="sala2_papel" value="tria a caixa única de e-mail"></td>
+            <td class="centro"><input type="checkbox" name="sala2_ok"></td></tr>
+        <tr><td><input type="text" name="sala3_nome" placeholder="recepção"></td><td><input type="text" name="sala3_funcao"></td>
+            <td><input type="text" name="sala3_papel" value="tria o WhatsApp geral e o balcão"></td><td class="centro"><input type="checkbox" name="sala3_ok"></td></tr>
+        <tr><td><input type="text" name="sala4_nome" placeholder="referência de Notas"></td><td><input type="text" name="sala4_funcao"></td>
+            <td><input type="text" name="sala4_papel"></td><td class="centro"><input type="checkbox" name="sala4_ok"></td></tr>
+        <tr><td><input type="text" name="sala5_nome" placeholder="referência do RCPN"></td><td><input type="text" name="sala5_funcao"></td>
+            <td><input type="text" name="sala5_papel"></td><td class="centro"><input type="checkbox" name="sala5_ok"></td></tr>
+        <tr><td><input type="text" name="sala6_nome" placeholder="financeiro"></td><td><input type="text" name="sala6_funcao"></td>
+            <td><input type="text" name="sala6_papel"></td><td class="centro"><input type="checkbox" name="sala6_ok"></td></tr>
+        <tr><td><input type="text" name="sala7_nome"></td><td><input type="text" name="sala7_funcao"></td>
+            <td><input type="text" name="sala7_papel"></td><td class="centro"><input type="checkbox" name="sala7_ok"></td></tr>
+      </table>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo" style="flex:1 1 100%"><label>Quem faltou e por quê — e o que ficou sem resposta por causa disso</label>
+        <input type="text" name="sala_faltou"></div>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> As 5 respostas que não podem faltar
+      <span class="dica">Marque ao longo do encontro. Se alguma ainda estiver em branco à 1h40,
+      force o assunto.</span></p>
+    <label class="check"><input type="checkbox" name="meta1" class="essencial"><span>O mapa da camada compartilhada: <b>quem recebe, quem faz, onde fica registrado, onde trava</b>.</span></label>
+    <label class="check"><input type="checkbox" name="meta2" class="essencial"><span>Onde há <b>duplicidade</b> — o mesmo trabalho feito em duas ou três atribuições.</span></label>
+    <label class="check"><input type="checkbox" name="meta3" class="essencial"><span>As dores transversais confirmadas, <b>com volume e tempo</b>.</span></label>
+    <label class="check"><input type="checkbox" name="meta4" class="essencial"><span>O que o tabelião quer enxergar <b>numa tela toda segunda-feira</b>.</span></label>
+    <label class="check"><input type="checkbox" name="meta5" class="essencial"><span>A <b>única melhoria</b> que a gestão escolheu para os próximos 30 dias.</span></label>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Roteiro do encontro</p>
+    <div class="rolagem">
+      <table>
+        <tr><th>Bloco</th><th style="width:14%">Tempo</th><th>Bloco</th><th style="width:14%">Tempo</th></tr>
+        <tr><td class="rotulo">1 · Abertura e enquadramento</td><td class="rotulo">10 min</td>
+            <td class="rotulo">3.4 · Pagamentos</td><td class="rotulo">7 min</td></tr>
+        <tr><td class="rotulo">2 · Mapa da camada compartilhada</td><td class="rotulo">25 min</td>
+            <td class="rotulo">3.5 · Conhecimento e treinamento</td><td class="rotulo">6 min</td></tr>
+        <tr><td class="rotulo">3.1 · E-mail único</td><td class="rotulo">12 min</td>
+            <td class="rotulo">4 · Gestão, liderança e indicadores</td><td class="rotulo">20 min</td></tr>
+        <tr><td class="rotulo">3.2 · WhatsApp</td><td class="rotulo">10 min</td>
+            <td class="rotulo">5 · Business case</td><td class="rotulo">8 min</td></tr>
+        <tr><td class="rotulo">3.3 · Prazos e SLA</td><td class="rotulo">10 min</td>
+            <td class="rotulo">6 · Prioridades e fechamento</td><td class="rotulo">12 min</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 1 -->
+<section>
+  <h2><span class="n">1.</span> Abertura e enquadramento <span class="tempo">10 min</span></h2>
+
+  <div class="fala">
+    <strong>Fala de abertura</strong>
+    “Hoje a ideia é olhar o cartório como uma operação única, formada por três atribuições
+    diferentes. Não queremos entrar no detalhe técnico de cada ato. Queremos entender o que se
+    repete entre RCPN, Protesto e Notas, onde há perda de tempo entre setores e quais melhorias
+    podem beneficiar todo mundo.”
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Combinados de abertura</p>
+    <label class="check"><input type="checkbox" name="comb1"><span>Combinado sobre gravação da reunião.</span></label>
+    <label class="check"><input type="checkbox" name="comb2"><span><b>LGPD:</b> nada de nome, CPF, print de conversa real ou documento de usuário saindo daqui — nem para ferramenta de IA.</span></label>
+    <label class="check"><input type="checkbox" name="comb3"><span>Deixado claro: não é auditoria e ninguém está sendo avaliado. <b>Vale insistir aqui</b> — quando a conversa é sobre gestão, quem trabalha tende a ouvir “estão medindo meu serviço”.</span></label>
+    <label class="check"><input type="checkbox" name="comb4"><span>Dito na frente de todos: <b>não viemos automatizar o que já funciona.</b></span></label>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A pergunta de aquecimento — cada responsável responde
+      <span class="dica">“Se vocês tivessem que apontar <b>uma</b> coisa que atrapalha as três áreas
+      hoje, qual seria?” Não deixe ninguém repetir o anterior nem concordar sem dizer o próprio caso.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:22%">Quem</th><th style="width:14%">Área</th><th>O que atrapalha as três</th></tr>
+        <tr><td><input type="text" name="aq1_quem"></td><td><input type="text" name="aq1_area"></td><td><input type="text" name="aq1_o"></td></tr>
+        <tr><td><input type="text" name="aq2_quem"></td><td><input type="text" name="aq2_area"></td><td><input type="text" name="aq2_o"></td></tr>
+        <tr><td><input type="text" name="aq3_quem"></td><td><input type="text" name="aq3_area"></td><td><input type="text" name="aq3_o"></td></tr>
+        <tr><td><input type="text" name="aq4_quem"></td><td><input type="text" name="aq4_area"></td><td><input type="text" name="aq4_o"></td></tr>
+        <tr><td><input type="text" name="aq5_quem"></td><td><input type="text" name="aq5_area"></td><td><input type="text" name="aq5_o"></td></tr>
+        <tr><td><input type="text" name="aq6_quem"></td><td><input type="text" name="aq6_area"></td><td><input type="text" name="aq6_o"></td></tr>
+      </table>
+    </div>
+    <details>
+      <summary>Por que esta pergunta primeiro</summary>
+      <p>Ela dá a hipótese da reunião inteira em três minutos e, principalmente, mostra se as três
+      áreas apontam para o <b>mesmo</b> problema. Se apontarem, a priorização do bloco 6 já está
+      praticamente decidida — e decidida por eles, não por nós.</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Confirmar o que já sabemos da gestão
+      <span class="dica">Vem do formulário inicial e da Sessão 1. Ler linha por linha e perguntar “é
+      isso mesmo?”. Marque quando confirmar; se estiver errado, deixe desmarcado e escreva a correção.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:50%">O que já sabemos</th><th style="width:8%">Confere</th><th>Correção / detalhe</th></tr>
+        <tr><td class="rotulo">São <b>quatro números de WhatsApp</b>: um geral, triado pela recepção, e um por atribuição</td>
+            <td class="centro"><input type="checkbox" name="cf1"></td><td><input type="text" name="cf1_obs"></td></tr>
+        <tr><td class="rotulo">Nenhum dos quatro tem automação, bot ou resposta salva estruturada</td>
+            <td class="centro"><input type="checkbox" name="cf2"></td><td><input type="text" name="cf2_obs"></td></tr>
+        <tr><td class="rotulo"><b>Uma caixa única de e-mail</b> para as três atribuições — e manter uma só é decisão consciente, para não “virar tumulto”</td>
+            <td class="centro"><input type="checkbox" name="cf3"></td><td><input type="text" name="cf3_obs"></td></tr>
+        <tr><td class="rotulo">O Júnior lê a caixa inteira, <b>tira foto do e-mail e manda no WhatsApp do setor</b>; responde ele mesmo o que é do cartório em geral (Corregedoria)</td>
+            <td class="centro"><input type="checkbox" name="cf4"></td><td><input type="text" name="cf4_obs"></td></tr>
+        <tr><td class="rotulo">Não existe <b>sistema de gestão</b> no cartório — só o sistema de atos (Extradigital)</td>
+            <td class="centro"><input type="checkbox" name="cf5"></td><td><input type="text" name="cf5_obs"></td></tr>
+        <tr><td class="rotulo">Cada tipo de demanda tem prazo próprio — certidão de registro civil em <b>5 dias</b>, ofícios da Corregedoria, prazos da CENPROT</td>
+            <td class="centro"><input type="checkbox" name="cf6"></td><td><input type="text" name="cf6_obs"></td></tr>
+        <tr><td class="rotulo">No Protesto há <b>duas contas</b> (protesto e emolumentos) e dois QR Codes — e “quase que diariamente” o devedor paga tudo numa conta só, com rateio manual depois</td>
+            <td class="centro"><input type="checkbox" name="cf7"></td><td><input type="text" name="cf7_obs"></td></tr>
+        <tr><td class="rotulo">O cartório <b>já redigiu</b> um documento de mensagens automáticas e mantém dois checklists (cancelamento e apontamento)</td>
+            <td class="centro"><input type="checkbox" name="cf8"></td><td><input type="text" name="cf8_obs"></td></tr>
+        <tr><td class="rotulo">Distribuição de gente: Protesto 4 · RCPN 6 · Notas é o maior time</td>
+            <td class="centro"><input type="checkbox" name="cf9"></td><td><input type="text" name="cf9_obs"></td></tr>
+        <tr><td class="rotulo">A equipe <b>não usa IA</b> hoje em nenhuma das três atribuições</td>
+            <td class="centro"><input type="checkbox" name="cf10"></td><td><input type="text" name="cf10_obs"></td></tr>
+        <tr><td class="rotulo">Sistema <b>Extradigital</b> nas três atribuições, mesmo fornecedor</td>
+            <td class="centro"><input type="checkbox" name="cf11"></td><td><input type="text" name="cf11_obs"></td></tr>
+        <tr><td class="rotulo">A conta de protesto <b>tem que zerar todo dia</b> — repasse ao credor em 24h</td>
+            <td class="centro"><input type="checkbox" name="cf12"></td><td><input type="text" name="cf12_obs"></td></tr>
+      </table>
+    </div>
+
+    <div class="aviso" style="margin:14px 0 0">
+      <strong>Uma pergunta que só cabe nesta sessão</strong>
+      O e-mail da Corregedoria, o ofício do juízo, a demanda que não é de nenhuma das três
+      atribuições — <b>quem é o dono disso?</b> Na Sessão 1 a resposta foi “o Júnior responde”. Se ele
+      é o único ponto de entrada e de saída da serventia inteira, essa é a dependência de pessoa mais
+      cara do cartório, e ninguém a listou como risco.
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Pendências da Sessão 1 — chegaram?
+      <span class="dica">Confira antes de pedir coisa nova. Pedir duas vezes o mesmo material é a
+      forma mais rápida de parecer desorganizado.</span></p>
+    <label class="check"><input type="checkbox" name="pend_s1a"><span>Documento de mensagens automáticas do WhatsApp <i>(Sebastião Júnior)</i></span></label>
+    <label class="check"><input type="checkbox" name="pend_s1b"><span>Os dois checklists — cancelamento e apontamento <i>(Sebastião Júnior)</i></span></label>
+    <label class="check"><input type="checkbox" name="pend_s1c"><span>Principais dúvidas que chegam pelo WhatsApp <i>(Sebastião Júnior)</i></span></label>
+    <label class="check"><input type="checkbox" name="pend_s1d"><span>Tabela de emolumentos completa e atualizada <i>(Kélcio)</i></span></label>
+    <label class="check"><input type="checkbox" name="pend_s1e"><span>Fundamentação sobre intimação por WhatsApp e autorização prévia do devedor <i>(Kélcio)</i></span></label>
+    <label class="check"><input type="checkbox" name="pend_s1f"><span>O cartório está usando o e-mail do grupo para mandar material?</span></label>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> O que a sessão do RCPN, de manhã, acabou de mostrar
+      <span class="dica">Preencher no intervalo, com a memória quente. Só o que <b>atravessa</b> —
+      dor que também existe em Protesto ou Notas. O que for técnica de registro civil fica lá, no
+      formulário do RCPN.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:44%">Achado da manhã</th><th style="width:20%">Também vale para</th>
+            <th>Como trazer isso para a conversa da tarde</th></tr>
+        <tr><td><input type="text" name="rc1"></td><td><input type="text" name="rc1_area"></td><td><input type="text" name="rc1_uso"></td></tr>
+        <tr><td><input type="text" name="rc2"></td><td><input type="text" name="rc2_area"></td><td><input type="text" name="rc2_uso"></td></tr>
+        <tr><td><input type="text" name="rc3"></td><td><input type="text" name="rc3_area"></td><td><input type="text" name="rc3_uso"></td></tr>
+        <tr><td><input type="text" name="rc4"></td><td><input type="text" name="rc4_area"></td><td><input type="text" name="rc4_uso"></td></tr>
+        <tr><td><input type="text" name="rc5"></td><td><input type="text" name="rc5_area"></td><td><input type="text" name="rc5_uso"></td></tr>
+      </table>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo"><label>Total de horas/mês que o business case do RCPN fechou</label><input type="text" name="rc_bc"></div>
+      <div class="campo"><label>O piloto 1 do RCPN escolhido de manhã</label><input type="text" name="rc_piloto"></div>
+    </div>
+    <div class="aviso" style="margin:14px 0 0">
+      <strong>Use isto como abertura, não como relatório</strong>
+      Abrir a sessão da tarde citando <b>uma</b> coisa que eles próprios disseram de manhã compra a
+      sala inteira: mostra que a gente ouviu e que as duas conversas são a mesma operação. Mas não
+      recontar a sessão — uma frase, e seguir.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 2 -->
+<section>
+  <h2><span class="n">2.</span> O mapa da camada compartilhada <span class="tempo">25 min</span></h2>
+  <p class="intro-secao">O bloco mais importante da sessão. Para cada processo que as três
+    atribuições dividem, a mesma sequência de perguntas: <b>quem recebe, quem executa, onde fica
+    registrado, onde trava</b>. Preencha ao vivo, na frente deles — a tabela projetada faz a própria
+    equipe corrigir e completar.</p>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Tabela mestra dos processos compartilhados
+      <span class="dica">“Onde fica registrado” é a coluna que costuma ficar vazia — e a coluna vazia
+      é o diagnóstico. Se ninguém sabe dizer onde algo fica registrado, é porque não fica.</span></p>
+    <div class="rolagem">
+      <table style="min-width:760px">
+        <tr><th style="width:18%">Processo</th><th style="width:20%">Quem recebe / faz hoje</th>
+            <th style="width:22%">Onde fica registrado</th><th>Onde trava</th></tr>
+        <tr><td class="rotulo">Recepção e balcão</td><td><input type="text" name="mp1_quem"></td>
+            <td><input type="text" name="mp1_reg"></td><td><input type="text" name="mp1_trava"></td></tr>
+        <tr><td class="rotulo">WhatsApp geral</td><td><input type="text" name="mp2_quem"></td>
+            <td><input type="text" name="mp2_reg"></td><td><input type="text" name="mp2_trava"></td></tr>
+        <tr><td class="rotulo">WhatsApp de cada setor</td><td><input type="text" name="mp3_quem"></td>
+            <td><input type="text" name="mp3_reg"></td><td><input type="text" name="mp3_trava"></td></tr>
+        <tr><td class="rotulo">Telefone</td><td><input type="text" name="mp4_quem"></td>
+            <td><input type="text" name="mp4_reg"></td><td><input type="text" name="mp4_trava"></td></tr>
+        <tr><td class="rotulo">E-mail (caixa única)</td><td><input type="text" name="mp5_quem"></td>
+            <td><input type="text" name="mp5_reg"></td><td><input type="text" name="mp5_trava"></td></tr>
+        <tr><td class="rotulo">Financeiro e pagamentos</td><td><input type="text" name="mp6_quem"></td>
+            <td><input type="text" name="mp6_reg"></td><td><input type="text" name="mp6_trava"></td></tr>
+        <tr><td class="rotulo">Controle de prazos</td><td><input type="text" name="mp7_quem"></td>
+            <td><input type="text" name="mp7_reg"></td><td><input type="text" name="mp7_trava"></td></tr>
+        <tr><td class="rotulo">Entrega de documentos ao cidadão</td><td><input type="text" name="mp8_quem"></td>
+            <td><input type="text" name="mp8_reg"></td><td><input type="text" name="mp8_trava"></td></tr>
+        <tr><td class="rotulo">Reclamações</td><td><input type="text" name="mp9_quem"></td>
+            <td><input type="text" name="mp9_reg"></td><td><input type="text" name="mp9_trava"></td></tr>
+        <tr><td class="rotulo">Pendências em aberto (o “e o meu?”)</td><td><input type="text" name="mp10_quem"></td>
+            <td><input type="text" name="mp10_reg"></td><td><input type="text" name="mp10_trava"></td></tr>
+        <tr><td class="rotulo">Treinamento de gente nova</td><td><input type="text" name="mp11_quem"></td>
+            <td><input type="text" name="mp11_reg"></td><td><input type="text" name="mp11_trava"></td></tr>
+        <tr><td class="rotulo">Ofícios, Corregedoria e demandas do juízo</td><td><input type="text" name="mp12_quem"></td>
+            <td><input type="text" name="mp12_reg"></td><td><input type="text" name="mp12_trava"></td></tr>
+        <tr><td><input type="text" name="mp13_nome" placeholder="Surgiu na reunião…"></td><td><input type="text" name="mp13_quem"></td>
+            <td><input type="text" name="mp13_reg"></td><td><input type="text" name="mp13_trava"></td></tr>
+        <tr><td><input type="text" name="mp14_nome" placeholder="Surgiu na reunião…"></td><td><input type="text" name="mp14_quem"></td>
+            <td><input type="text" name="mp14_reg"></td><td><input type="text" name="mp14_trava"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Onde o mesmo trabalho é feito duas ou três vezes
+      <span class="dica">Marque em quais atribuições o processo existe. Onde houver duas ou três
+      marcas, pergunte a seguir: <b>“é o mesmo jeito ou cada um faz do seu?”</b> — padronizar o que já
+      é igual é a entrega mais barata que existe.</span></p>
+    <div class="rolagem">
+      <table style="min-width:720px">
+        <tr><th style="width:34%">Processo</th><th style="width:9%">RCPN</th><th style="width:9%">Protesto</th>
+            <th style="width:9%">Notas</th><th>Igual nos três? Dá para padronizar?</th></tr>
+        <tr><td class="rotulo">Informar valor / orçamento ao cliente</td>
+            <td class="centro"><input type="checkbox" name="dp1_r"></td><td class="centro"><input type="checkbox" name="dp1_p"></td>
+            <td class="centro"><input type="checkbox" name="dp1_n"></td><td><input type="text" name="dp1_obs"></td></tr>
+        <tr><td class="rotulo">Enviar dados de pagamento (PIX, QR Code, conta)</td>
+            <td class="centro"><input type="checkbox" name="dp2_r"></td><td class="centro"><input type="checkbox" name="dp2_p"></td>
+            <td class="centro"><input type="checkbox" name="dp2_n"></td><td><input type="text" name="dp2_obs"></td></tr>
+        <tr><td class="rotulo">Conferir se o pagamento caiu</td>
+            <td class="centro"><input type="checkbox" name="dp3_r"></td><td class="centro"><input type="checkbox" name="dp3_p"></td>
+            <td class="centro"><input type="checkbox" name="dp3_n"></td><td><input type="text" name="dp3_obs"></td></tr>
+        <tr><td class="rotulo">Dizer ao cidadão quais documentos trazer</td>
+            <td class="centro"><input type="checkbox" name="dp4_r"></td><td class="centro"><input type="checkbox" name="dp4_p"></td>
+            <td class="centro"><input type="checkbox" name="dp4_n"></td><td><input type="text" name="dp4_obs"></td></tr>
+        <tr><td class="rotulo">Conferir documento entregue pelo cidadão</td>
+            <td class="centro"><input type="checkbox" name="dp5_r"></td><td class="centro"><input type="checkbox" name="dp5_p"></td>
+            <td class="centro"><input type="checkbox" name="dp5_n"></td><td><input type="text" name="dp5_obs"></td></tr>
+        <tr><td class="rotulo">Emitir certidão</td>
+            <td class="centro"><input type="checkbox" name="dp6_r"></td><td class="centro"><input type="checkbox" name="dp6_p"></td>
+            <td class="centro"><input type="checkbox" name="dp6_n"></td><td><input type="text" name="dp6_obs"></td></tr>
+        <tr><td class="rotulo">Responder a mesma dúvida pela terceira vez no dia</td>
+            <td class="centro"><input type="checkbox" name="dp7_r"></td><td class="centro"><input type="checkbox" name="dp7_p"></td>
+            <td class="centro"><input type="checkbox" name="dp7_n"></td><td><input type="text" name="dp7_obs"></td></tr>
+        <tr><td class="rotulo">Avisar que ficou pronto e entregar</td>
+            <td class="centro"><input type="checkbox" name="dp8_r"></td><td class="centro"><input type="checkbox" name="dp8_p"></td>
+            <td class="centro"><input type="checkbox" name="dp8_n"></td><td><input type="text" name="dp8_obs"></td></tr>
+        <tr><td class="rotulo">Digitalizar e arquivar</td>
+            <td class="centro"><input type="checkbox" name="dp9_r"></td><td class="centro"><input type="checkbox" name="dp9_p"></td>
+            <td class="centro"><input type="checkbox" name="dp9_n"></td><td><input type="text" name="dp9_obs"></td></tr>
+        <tr><td class="rotulo">Controlar prazo do que está em andamento</td>
+            <td class="centro"><input type="checkbox" name="dp10_r"></td><td class="centro"><input type="checkbox" name="dp10_p"></td>
+            <td class="centro"><input type="checkbox" name="dp10_n"></td><td><input type="text" name="dp10_obs"></td></tr>
+        <tr><td><input type="text" name="dp11_nome" placeholder="Surgiu na reunião…"></td>
+            <td class="centro"><input type="checkbox" name="dp11_r"></td><td class="centro"><input type="checkbox" name="dp11_p"></td>
+            <td class="centro"><input type="checkbox" name="dp11_n"></td><td><input type="text" name="dp11_obs"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Onde uma atribuição depende de outra — ou da recepção
+      <span class="dica">Pergunte por episódio concreto, não por regra: “me conta a última vez que
+      vocês ficaram esperando outro setor”. E na sequência: <b>“se essa pessoa faltar uma semana,
+      como o processo continua?”</b></span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:34%">Situação</th><th style="width:24%">Quem depende de quem</th>
+            <th style="width:14%">Frequência</th><th>O que trava enquanto espera</th></tr>
+        <tr><td><input type="text" name="dep1"></td><td><input type="text" name="dep1_q"></td>
+            <td><input type="text" name="dep1_f"></td><td><input type="text" name="dep1_t"></td></tr>
+        <tr><td><input type="text" name="dep2"></td><td><input type="text" name="dep2_q"></td>
+            <td><input type="text" name="dep2_f"></td><td><input type="text" name="dep2_t"></td></tr>
+        <tr><td><input type="text" name="dep3"></td><td><input type="text" name="dep3_q"></td>
+            <td><input type="text" name="dep3_f"></td><td><input type="text" name="dep3_t"></td></tr>
+        <tr><td><input type="text" name="dep4"></td><td><input type="text" name="dep4_q"></td>
+            <td><input type="text" name="dep4_f"></td><td><input type="text" name="dep4_t"></td></tr>
+        <tr><td><input type="text" name="dep5"></td><td><input type="text" name="dep5_q"></td>
+            <td><input type="text" name="dep5_f"></td><td><input type="text" name="dep5_t"></td></tr>
+      </table>
+    </div>
+    <div class="aviso risco" style="margin:14px 0 0">
+      <strong>Cuidado com a leitura fácil</strong>
+      Na Sessão 1 tratamos a “pessoa única” da notificação como risco e levamos uma resposta melhor:
+      era <b>segregação de funções deliberada</b> — ele não lança no sistema justamente para não
+      homologar o próprio erro. <b>Pergunte antes de classificar.</b> Dependência de pessoa pode ser
+      controle interno, e chamar controle de falha queima credibilidade.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3.1 -->
+<section>
+  <h2><span class="n">3.1</span> Gargalo — o e-mail único <span class="tempo">12 min</span></h2>
+  <p class="intro-secao">A Sessão 1 já concluiu o principal: <b>o problema não é separar as caixas</b>
+    — manter uma só é decisão consciente. O que falta é etiqueta, responsável, prazo e status. Aqui a
+    missão é sair com <b>número</b>, não com concordância.</p>
+
+  <div class="fala">
+    <strong>Do Kélcio, na Sessão 1 — abrir o bloco com isto</strong>
+    “Se já tiver como etiquetar, acendeu o alerta vermelho para o Júnior, ele já sabe que não foi
+    cumprido aquele e-mail.”
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> O tamanho do problema</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:52%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">Quantos e-mails chegam por dia <span class="dica">estimativa serve</span></td><td><input type="text" name="em_dia"></td></tr>
+        <tr><td class="rotulo">Quais atribuições recebem mais</td><td><input type="text" name="em_setores"></td></tr>
+        <tr><td class="rotulo">Quanto tempo o Júnior gasta por dia nisso</td><td><input type="text" name="em_tempo"></td></tr>
+        <tr><td class="rotulo">Quem distribui quando ele não está</td><td><input type="text" name="em_substituto"></td></tr>
+        <tr><td class="rotulo">Como se sabe que <b>alguém respondeu</b></td><td><input type="text" name="em_respondeu"></td></tr>
+        <tr><td class="rotulo">Como se sabe que um prazo <b>está vencendo</b></td><td><input type="text" name="em_vencendo"></td></tr>
+        <tr><td class="rotulo">Já se perdeu e-mail? O que aconteceu?</td><td><input type="text" name="em_perdido"></td></tr>
+        <tr><td class="rotulo">Já houve duas pessoas respondendo o mesmo e-mail?</td><td><input type="text" name="em_duplicado"></td></tr>
+        <tr><td class="rotulo">Que assuntos têm prazo diferente entre si</td><td><input type="text" name="em_prazos"></td></tr>
+        <tr><td class="rotulo">O que hoje é respondido pelo WhatsApp mas deveria voltar por e-mail</td><td><input type="text" name="em_canal"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A pergunta técnica que precisa de resposta hoje
+      <span class="dica">Ficou em aberto no relatório do Protesto e decide o desenho inteiro da
+      solução. Se ninguém souber, peça para verificarem com quem cuida do e-mail.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:52%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">O e-mail é <b>Google Workspace</b> (domínio próprio, pago) ou conta comum do Gmail?</td><td><input type="text" name="em_workspace"></td></tr>
+        <tr><td class="rotulo">Quantas pessoas têm a senha da caixa?</td><td><input type="text" name="em_senha"></td></tr>
+        <tr><td class="rotulo">Cada um acessa com o próprio login ou é senha compartilhada?</td><td><input type="text" name="em_login"></td></tr>
+        <tr><td class="rotulo">Existem outros e-mails além desse (setor, pessoal, do tabelião)?</td><td><input type="text" name="em_outros"></td></tr>
+        <tr><td class="rotulo">Já usam marcador, filtro ou assinatura padrão?</td><td><input type="text" name="em_recursos"></td></tr>
+      </table>
+    </div>
+    <div class="aviso bom" style="margin:14px 0 0">
+      <strong>A boa notícia — pode ser dita na reunião</strong>
+      Tudo o que eles descreveram já existe no Gmail: marcador por setor e por prazo, filtro
+      automático por remetente e assunto, e alerta de vencimento por Apps Script. <b>Não precisa
+      comprar nada nem trocar de sistema.</b> A diferença Workspace × conta comum não muda a
+      etiquetagem — muda a delegação: só o Workspace permite cada um acessar sob o próprio login.
+    </div>
+    <details>
+      <summary>Se sobrar tempo: o desenho que vamos propor</summary>
+      <p>Caixa única mantida, com etiqueta por atribuição, responsável, status e prazo; o que tem
+      prazo legal entra com data; alerta diário do que está vencendo; e uma visão de pendências que
+      o Júnior abre uma vez por dia em vez de reabrir a caixa inteira. Não prometa a construção
+      agora — valide se é isso que resolve.</p>
+    </details>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3.2 -->
+<section>
+  <h2><span class="n">3.2</span> Gargalo — os quatro WhatsApps <span class="tempo">10 min</span></h2>
+  <p class="intro-secao">Quatro números, nenhuma automação, e o cliente decidindo sozinho para onde
+    escrever. O alvo aqui é a <b>camada de triagem</b> — e as perguntas que se repetem nas três
+    atribuições.</p>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Como está montado hoje</p>
+    <div class="rolagem">
+      <table style="min-width:700px">
+        <tr><th style="width:22%">Número</th><th style="width:24%">Quem responde</th>
+            <th style="width:18%">Volume por dia</th><th>O que chega por ali</th></tr>
+        <tr><td class="rotulo">Geral (recepção)</td><td><input type="text" name="wa1_quem"></td>
+            <td><input type="text" name="wa1_vol"></td><td><input type="text" name="wa1_o"></td></tr>
+        <tr><td class="rotulo">RCPN</td><td><input type="text" name="wa2_quem"></td>
+            <td><input type="text" name="wa2_vol"></td><td><input type="text" name="wa2_o"></td></tr>
+        <tr><td class="rotulo">Protesto</td><td><input type="text" name="wa3_quem"></td>
+            <td><input type="text" name="wa3_vol"></td><td><input type="text" name="wa3_o"></td></tr>
+        <tr><td class="rotulo">Notas</td><td><input type="text" name="wa4_quem"></td>
+            <td><input type="text" name="wa4_vol"></td><td><input type="text" name="wa4_o"></td></tr>
+      </table>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo"><label>É WhatsApp Business? Tem etiqueta, resposta rápida, catálogo?</label><input type="text" name="wa_business"></div>
+      <div class="campo"><label>Um aparelho por setor ou tudo no mesmo?</label><input type="text" name="wa_aparelho"></div>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Onde a triagem falha</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:52%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">O cliente sabe qual número usar? Como ele descobre?</td><td><input type="text" name="wt_sabe"></td></tr>
+        <tr><td class="rotulo">Quanto do que chega no geral <b>não é</b> do geral</td><td><input type="text" name="wt_errado"></td></tr>
+        <tr><td class="rotulo">Como a recepção repassa para o setor — e o cliente precisa repetir a história?</td><td><input type="text" name="wt_repete"></td></tr>
+        <tr><td class="rotulo">Quantas vezes por dia alguém pergunta “já respondeu aquele cliente?”</td><td><input type="text" name="wt_status"></td></tr>
+        <tr><td class="rotulo">Quem responde quando ninguém sabe a resposta</td><td><input type="text" name="wt_ninguem"></td></tr>
+        <tr><td class="rotulo">Fora do horário e no fim de semana, o que acontece com as mensagens</td><td><input type="text" name="wt_horario"></td></tr>
+        <tr><td class="rotulo">Existe biblioteca de respostas prontas? Onde ela mora?</td><td><input type="text" name="wt_biblioteca"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> As perguntas que se repetem <b>nas três áreas</b>
+      <span class="dica">Este é o insumo da triagem e da base de conhecimento — as duas entregas de
+      maior alcance. Marque quando já existir resposta pronta em algum lugar.</span></p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:6%">#</th><th>Pergunta que mais se repete</th><th style="width:16%">Atribuição</th><th style="width:16%">Já tem resposta pronta</th></tr>
+        <tr><td class="rotulo">1</td><td><input type="text" name="rep1"></td><td><input type="text" name="rep1_s"></td><td class="centro"><input type="checkbox" name="rep1_ok"></td></tr>
+        <tr><td class="rotulo">2</td><td><input type="text" name="rep2"></td><td><input type="text" name="rep2_s"></td><td class="centro"><input type="checkbox" name="rep2_ok"></td></tr>
+        <tr><td class="rotulo">3</td><td><input type="text" name="rep3"></td><td><input type="text" name="rep3_s"></td><td class="centro"><input type="checkbox" name="rep3_ok"></td></tr>
+        <tr><td class="rotulo">4</td><td><input type="text" name="rep4"></td><td><input type="text" name="rep4_s"></td><td class="centro"><input type="checkbox" name="rep4_ok"></td></tr>
+        <tr><td class="rotulo">5</td><td><input type="text" name="rep5"></td><td><input type="text" name="rep5_s"></td><td class="centro"><input type="checkbox" name="rep5_ok"></td></tr>
+        <tr><td class="rotulo">6</td><td><input type="text" name="rep6"></td><td><input type="text" name="rep6_s"></td><td class="centro"><input type="checkbox" name="rep6_ok"></td></tr>
+        <tr><td class="rotulo">7</td><td><input type="text" name="rep7"></td><td><input type="text" name="rep7_s"></td><td class="centro"><input type="checkbox" name="rep7_ok"></td></tr>
+        <tr><td class="rotulo">8</td><td><input type="text" name="rep8"></td><td><input type="text" name="rep8_s"></td><td class="centro"><input type="checkbox" name="rep8_ok"></td></tr>
+        <tr><td class="rotulo">9</td><td><input type="text" name="rep9"></td><td><input type="text" name="rep9_s"></td><td class="centro"><input type="checkbox" name="rep9_ok"></td></tr>
+        <tr><td class="rotulo">10</td><td><input type="text" name="rep10"></td><td><input type="text" name="rep10_s"></td><td class="centro"><input type="checkbox" name="rep10_ok"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="aviso risco">
+    <strong>Duas linhas que a triagem não pode cruzar</strong>
+    <b>1.</b> No Protesto, dizer <i>quem</i> protestou exige certidão paga — a consulta pública só
+    informa que existe protesto e em qual cartório. Qualquer resposta automática para nessa linha e
+    encaminha para humano. <b>2.</b> O próprio Kélcio já delimitou o alcance: “para o setor de
+    protesto ajudaria demais, porque é muito objetivo; já para as escrituras, como é muito
+    subjetivo, dificilmente a gente conseguiria fazer esse agente”. Confirme se ele mantém a
+    leitura — ela define até onde a triagem vai em Notas.
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A entrega barata que já existe e ninguém usa
+      <span class="dica">Consulta pública gratuita da CENPROT, com GOV.br ou certificado digital: o
+      cidadão descobre sozinho se tem protesto e em qual cartório, e há um “avise-me”. QR Code na
+      recepção, link no fluxo do WhatsApp — e o atendimento morre antes de chegar ao setor.</span></p>
+    <div class="linha-campos">
+      <div class="campo"><label>A recepção sabe que isso existe?</label><input type="text" name="cenprot_sabe"></div>
+      <div class="campo"><label>Quantos atendimentos por dia isso resolveria</label><input type="text" name="cenprot_vol"></div>
+      <div class="campo" style="flex:1 1 100%"><label>Onde colocar (balcão, cartaz, WhatsApp, totem) — e quem faz</label><input type="text" name="cenprot_onde"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3.3 -->
+<section>
+  <h2><span class="n">3.3</span> Gargalo — prazos e SLA <span class="tempo">10 min</span></h2>
+  <p class="intro-secao">Cada tipo de ato tem relógio próprio, e hoje não existe sistema de gestão —
+    só o de atos. A pergunta é onde esse relógio mora: sistema, papel, memória ou WhatsApp.</p>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Onde cada prazo é controlado hoje
+      <span class="dica">Os prazos já conhecidos vêm da Sessão 1 — confirme e complete com RCPN e
+      Notas. “Memória” é resposta válida e é a mais reveladora de todas.</span></p>
+    <div class="rolagem">
+      <table style="min-width:740px">
+        <tr><th style="width:30%">Evento</th><th style="width:12%">Prazo</th>
+            <th style="width:22%">Controlado onde</th><th style="width:16%">Quem cobra</th><th>Já estourou?</th></tr>
+        <tr><td class="rotulo">Intimar o devedor após o apontamento</td><td class="rotulo">3 dias</td>
+            <td><input type="text" name="pz1_onde"></td><td><input type="text" name="pz1_quem"></td><td><input type="text" name="pz1_est"></td></tr>
+        <tr><td class="rotulo">Retorno à central (pago ou protestado)</td><td class="rotulo">12 dias</td>
+            <td><input type="text" name="pz2_onde"></td><td><input type="text" name="pz2_quem"></td><td><input type="text" name="pz2_est"></td></tr>
+        <tr><td class="rotulo">Repasse do valor ao credor</td><td class="rotulo">24 horas</td>
+            <td><input type="text" name="pz3_onde"></td><td><input type="text" name="pz3_quem"></td><td><input type="text" name="pz3_est"></td></tr>
+        <tr><td class="rotulo">Certidão de registro civil</td><td class="rotulo">5 dias</td>
+            <td><input type="text" name="pz4_onde"></td><td><input type="text" name="pz4_quem"></td><td><input type="text" name="pz4_est"></td></tr>
+        <tr><td class="rotulo">Ofício da Corregedoria / juízo</td><td><input type="text" name="pz5_prazo"></td>
+            <td><input type="text" name="pz5_onde"></td><td><input type="text" name="pz5_quem"></td><td><input type="text" name="pz5_est"></td></tr>
+        <tr><td class="rotulo">Habilitação de casamento (RCPN)</td><td><input type="text" name="pz6_prazo"></td>
+            <td><input type="text" name="pz6_onde"></td><td><input type="text" name="pz6_quem"></td><td><input type="text" name="pz6_est"></td></tr>
+        <tr><td class="rotulo">Escritura / ato de Notas prometido ao cliente</td><td><input type="text" name="pz7_prazo"></td>
+            <td><input type="text" name="pz7_onde"></td><td><input type="text" name="pz7_quem"></td><td><input type="text" name="pz7_est"></td></tr>
+        <tr><td class="rotulo">Comunicações obrigatórias (SIRC, INSS, IBGE…)</td><td><input type="text" name="pz8_prazo"></td>
+            <td><input type="text" name="pz8_onde"></td><td><input type="text" name="pz8_quem"></td><td><input type="text" name="pz8_est"></td></tr>
+        <tr><td><input type="text" name="pz9_nome" placeholder="Surgiu na reunião…"></td><td><input type="text" name="pz9_prazo"></td>
+            <td><input type="text" name="pz9_onde"></td><td><input type="text" name="pz9_quem"></td><td><input type="text" name="pz9_est"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Como o cartório descobre que um prazo vai estourar</p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="sla1"><span>O sistema avisa</span></label>
+      <label><input type="checkbox" name="sla2"><span>Alguém confere uma lista todo dia</span></label>
+      <label><input type="checkbox" name="sla3"><span>Anotação em papel / caderno / agenda</span></label>
+      <label><input type="checkbox" name="sla4"><span>Planilha</span></label>
+      <label><input type="checkbox" name="sla5"><span>Alguém lembra</span></label>
+      <label><input type="checkbox" name="sla6"><span>Só quando o cliente cobra</span></label>
+      <label><input type="checkbox" name="sla7"><span>Só quando a central ou a Corregedoria aponta</span></label>
+      <label><input type="checkbox" name="sla8"><span>Depende do setor</span></label>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo"><label>Qual setor corre mais risco de perder prazo — e por quê</label><input type="text" name="sla_risco"></div>
+      <div class="campo"><label>O tabelião precisa lembrar de alguma coisa que deveria ser do sistema?</label><input type="text" name="sla_tabeliao"></div>
+    </div>
+    <div class="aviso" style="margin:14px 0 0">
+      <strong>Registre isto na hora certa</strong>
+      Painel de SLA é <b>projeto de gestão, não de IA</b>. Se a sala começar a pedir “um robô que
+      avise”, traga de volta: primeiro é preciso que a demanda entre num lugar só, com responsável e
+      data. O aviso é a parte fácil.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3.4 -->
+<section>
+  <h2><span class="n">3.4</span> Gargalo — pagamentos e conciliação <span class="tempo">7 min</span></h2>
+  <p class="intro-secao">No Protesto isso já apareceu com nome e frequência: duas contas, dois QR
+    Codes e rateio manual “quase que diariamente”. A pergunta desta sessão é se RCPN e Notas vivem o
+    mesmo — e se a solução é bancária, não de IA.</p>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Como o dinheiro entra em cada atribuição</p>
+    <div class="rolagem">
+      <table style="min-width:740px">
+        <tr><th style="width:16%">Atribuição</th><th style="width:22%">Contas / chaves usadas</th>
+            <th style="width:22%">Como o valor chega ao cliente</th><th>Erro mais comum</th></tr>
+        <tr><td class="rotulo">RCPN</td><td><input type="text" name="pg1_conta"></td>
+            <td><input type="text" name="pg1_envio"></td><td><input type="text" name="pg1_erro"></td></tr>
+        <tr><td class="rotulo">Protesto</td><td><input type="text" name="pg2_conta" value="2 contas Bradesco (protesto e emolumentos), 2 QR Codes"></td>
+            <td><input type="text" name="pg2_envio"></td><td><input type="text" name="pg2_erro" value="paga tudo numa conta só"></td></tr>
+        <tr><td class="rotulo">Notas</td><td><input type="text" name="pg3_conta"></td>
+            <td><input type="text" name="pg3_envio"></td><td><input type="text" name="pg3_erro"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Onde a conciliação consome tempo</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:52%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">O cliente digita o valor ou o QR Code já vem preenchido?</td><td><input type="text" name="cc_valor"></td></tr>
+        <tr><td class="rotulo">Com que frequência o pagamento cai na conta errada</td><td><input type="text" name="cc_errada"></td></tr>
+        <tr><td class="rotulo">Quem faz o rateio depois, e quanto tempo leva</td><td><input type="text" name="cc_rateio"></td></tr>
+        <tr><td class="rotulo">Como se identifica <b>de quem</b> é o pagamento que caiu</td><td><input type="text" name="cc_identifica"></td></tr>
+        <tr><td class="rotulo">Quem confirma o crédito antes de liberar o ato</td><td><input type="text" name="cc_confirma"></td></tr>
+        <tr><td class="rotulo">Quem tem acesso ao extrato — e isso é decisão deliberada?</td><td><input type="text" name="cc_extrato"></td></tr>
+        <tr><td class="rotulo">Existe fechamento diário? Quem faz e como registra?</td><td><input type="text" name="cc_fechamento"></td></tr>
+        <tr><td class="rotulo">Já houve devolução, valor a maior ou pagamento fora do prazo legal?</td><td><input type="text" name="cc_devolucao"></td></tr>
+      </table>
+    </div>
+    <div class="aviso" style="margin:14px 0 0">
+      <strong>Honestidade que vale credibilidade</strong>
+      QR Code PIX com valor já preenchido, um por conta, com referência do atendimento, é
+      <b>configuração bancária</b> — uma conversa com o banco resolve. Registre como tal e não venda
+      como automação. O que sobra de fato para nós é a padronização da cobrança por serviço e a
+      referência que torna a conciliação possível.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 3.5 -->
+<section>
+  <h2><span class="n">3.5</span> Gargalo — onde mora o conhecimento <span class="tempo">6 min</span></h2>
+  <p class="intro-secao">Todo cartório tem um “Google interno”: a pessoa que todo mundo pergunta.
+    Descobrir quem é — e quanto do dia dela vai nisso — é meio caminho para a base de conhecimento.</p>
+
+  <div class="q">
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:52%">Pergunta</th><th>Resposta</th></tr>
+        <tr><td class="rotulo">Quem é o “Google interno” de cada atribuição</td><td><input type="text" name="cn_google"></td></tr>
+        <tr><td class="rotulo">Quantas vezes por dia essa pessoa é interrompida</td><td><input type="text" name="cn_interrup"></td></tr>
+        <tr><td class="rotulo">Existe playbook, manual ou procedimento escrito? Onde fica?</td><td><input type="text" name="cn_playbook"></td></tr>
+        <tr><td class="rotulo">Quais checklists já existem (e em qual setor)</td><td><input type="text" name="cn_checklists"></td></tr>
+        <tr><td class="rotulo">Como um funcionário novo aprende hoje — e em quanto tempo produz sozinho</td><td><input type="text" name="cn_novato"></td></tr>
+        <tr><td class="rotulo">Quando alguém sai de férias, o que para</td><td><input type="text" name="cn_ferias"></td></tr>
+        <tr><td class="rotulo">Existe padrão de resposta ao cliente, ou cada um escreve do seu jeito</td><td><input type="text" name="cn_padrao"></td></tr>
+        <tr><td class="rotulo">Onde está o que já foi escrito (Word, WhatsApp, papel, cabeça)</td><td><input type="text" name="cn_onde"></td></tr>
+        <tr><td class="rotulo">Quantas contratações estão previstas nos próximos meses</td><td><input type="text" name="cn_contrata"></td></tr>
+      </table>
+    </div>
+    <div class="aviso bom" style="margin:14px 0 0">
+      <strong>Eles já começaram sozinhos</strong>
+      O cartório redigiu um documento de mensagens automáticas e mantém dois checklists no Protesto.
+      Isso é matéria-prima pronta: a base de conhecimento não começa do zero, começa organizando o
+      que já existe. E é ela que, mais adiante, alimenta qualquer agente de IA interno — nesta ordem,
+      nunca ao contrário.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 4 -->
+<section>
+  <h2><span class="n">4.</span> Gestão, liderança e indicadores <span class="tempo">20 min</span></h2>
+  <p class="intro-secao">Até aqui a conversa foi sobre a operação. Agora é sobre quem conduz a
+    operação: quem responde por cada atribuição, quem substitui, o que se acompanha e o que o
+    tabelião consegue enxergar sem precisar perguntar.</p>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Quem responde por quê
+      <span class="dica">A coluna “substitui” é a mais importante da tabela. Se vier em branco ou com
+      o mesmo nome três vezes, achamos o risco estrutural do cartório.</span></p>
+    <div class="rolagem">
+      <table style="min-width:720px">
+        <tr><th style="width:18%">Área</th><th style="width:20%">Responsável</th>
+            <th style="width:20%">Quem substitui</th><th style="width:14%">Nº de pessoas</th><th>Decide o quê sozinho</th></tr>
+        <tr><td class="rotulo">RCPN</td><td><input type="text" name="ld1_resp"></td>
+            <td><input type="text" name="ld1_sub"></td><td><input type="text" name="ld1_n"></td><td><input type="text" name="ld1_dec"></td></tr>
+        <tr><td class="rotulo">Protesto</td><td><input type="text" name="ld2_resp"></td>
+            <td><input type="text" name="ld2_sub"></td><td><input type="text" name="ld2_n"></td><td><input type="text" name="ld2_dec"></td></tr>
+        <tr><td class="rotulo">Notas</td><td><input type="text" name="ld3_resp"></td>
+            <td><input type="text" name="ld3_sub"></td><td><input type="text" name="ld3_n"></td><td><input type="text" name="ld3_dec"></td></tr>
+        <tr><td class="rotulo">Recepção / atendimento</td><td><input type="text" name="ld4_resp"></td>
+            <td><input type="text" name="ld4_sub"></td><td><input type="text" name="ld4_n"></td><td><input type="text" name="ld4_dec"></td></tr>
+        <tr><td class="rotulo">Financeiro</td><td><input type="text" name="ld5_resp"></td>
+            <td><input type="text" name="ld5_sub"></td><td><input type="text" name="ld5_n"></td><td><input type="text" name="ld5_dec"></td></tr>
+        <tr><td class="rotulo">Gestão geral</td><td><input type="text" name="ld6_resp"></td>
+            <td><input type="text" name="ld6_sub"></td><td><input type="text" name="ld6_n"></td><td><input type="text" name="ld6_dec"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> O que existe hoje de rotina de gestão
+      <span class="dica">Marque o que existe. O que ficar desmarcado não é crítica — é onde a
+      mentoria tem espaço para entregar.</span></p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="rg1"><span>Reunião periódica de equipe</span></label>
+      <label><input type="checkbox" name="rg2"><span>Meta de atendimento ou de prazo</span></label>
+      <label><input type="checkbox" name="rg3"><span>Acompanhamento de volume por setor</span></label>
+      <label><input type="checkbox" name="rg4"><span>Acompanhamento de retrabalho</span></label>
+      <label><input type="checkbox" name="rg5"><span>Registro de reclamações</span></label>
+      <label><input type="checkbox" name="rg6"><span>Registro de erros e do que foi feito depois</span></label>
+      <label><input type="checkbox" name="rg7"><span>Controle de pendências por responsável</span></label>
+      <label><input type="checkbox" name="rg8"><span>Relatório periódico para o tabelião</span></label>
+      <label><input type="checkbox" name="rg9"><span>Indicador de receita por atribuição</span></label>
+      <label><input type="checkbox" name="rg10"><span>Avaliação ou feedback da equipe</span></label>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo"><label>Se existe reunião: com que frequência, quem participa, quem registra</label><input type="text" name="rg_reuniao"></div>
+      <div class="campo"><label>Onde ficam os números que já existem (sistema, planilha, cabeça)</label><input type="text" name="rg_numeros"></div>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A pergunta que revela o painel
+      <span class="dica">Faça direto ao tabelião, com o silêncio necessário para ele pensar. Anote as
+      palavras dele, não a nossa tradução.</span></p>
+    <div class="fala" style="margin-bottom:12px">
+      “Hoje, quais informações o senhor gostaria de enxergar numa tela toda segunda-feira de manhã?”
+    </div>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:6%">#</th><th>O que ele quer ver</th><th style="width:22%">Existe hoje? Onde?</th></tr>
+        <tr><td class="rotulo">1</td><td><input type="text" name="pn1"></td><td><input type="text" name="pn1_ex"></td></tr>
+        <tr><td class="rotulo">2</td><td><input type="text" name="pn2"></td><td><input type="text" name="pn2_ex"></td></tr>
+        <tr><td class="rotulo">3</td><td><input type="text" name="pn3"></td><td><input type="text" name="pn3_ex"></td></tr>
+        <tr><td class="rotulo">4</td><td><input type="text" name="pn4"></td><td><input type="text" name="pn4_ex"></td></tr>
+        <tr><td class="rotulo">5</td><td><input type="text" name="pn5"></td><td><input type="text" name="pn5_ex"></td></tr>
+        <tr><td class="rotulo">6</td><td><input type="text" name="pn6"></td><td><input type="text" name="pn6_ex"></td></tr>
+      </table>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo" style="flex:1 1 100%"><label>Hoje ele recebe informação estruturada ou só quando dá problema?</label>
+        <input type="text" name="pn_hoje"></div>
+    </div>
+    <details>
+      <summary>Como usar essa resposta depois</summary>
+      <p>Cada item da lista tem que virar uma pergunta técnica: <b>de onde sai esse número</b>. Se sai
+      do Extradigital, precisa de exportação ou API. Se sai do Gmail, sai de etiqueta. Se não sai de
+      lugar nenhum, o painel exige antes que a demanda passe a ser registrada — e aí a entrega 1 é o
+      registro, não o painel.</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Como a informação chega ao tabelião hoje</p>
+    <div class="opcoes duas">
+      <label><input type="checkbox" name="tb1"><span>Ele pergunta e alguém responde</span></label>
+      <label><input type="checkbox" name="tb2"><span>Só quando dá problema</span></label>
+      <label><input type="checkbox" name="tb3"><span>Pelo WhatsApp, avulso</span></label>
+      <label><input type="checkbox" name="tb4"><span>Relatório do sistema</span></label>
+      <label><input type="checkbox" name="tb5"><span>Ele mesmo entra e olha</span></label>
+      <label><input type="checkbox" name="tb6"><span>Reunião</span></label>
+    </div>
+    <div class="linha-campos" style="margin-top:12px">
+      <div class="campo"><label>Quanto tempo ele gasta por semana buscando informação da operação</label><input type="text" name="tb_tempo"></div>
+      <div class="campo"><label>A última vez que ele soube de um problema tarde demais</label><input type="text" name="tb_tarde"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 5 -->
+<section>
+  <h2><span class="n">5.</span> Business case da camada compartilhada <span class="tempo">8 min</span></h2>
+  <p class="intro-secao">Foi a falha do diagnóstico de Protesto: saímos com tempo por tarefa e sem
+    volume — e sem os dois não há como provar ganho. <b>Não saia daqui só com “é chato”.</b> Preencha
+    vezes por mês e minutos: as horas se calculam sozinhas. Estimativa serve.</p>
+
+  <div class="q">
+    <div class="rolagem">
+      <table style="min-width:700px">
+        <tr><th style="width:38%">Atividade</th><th style="width:14%">Vezes por mês</th>
+            <th style="width:14%">Minutos cada</th><th style="width:14%">Horas/mês</th><th>Quem faz</th></tr>
+        <tr class="bc"><td class="rotulo">Triar a caixa de e-mail e encaminhar ao setor</td>
+            <td><input type="number" min="0" step="1" name="bc1_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc1_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc1_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Checar se o e-mail encaminhado foi respondido</td>
+            <td><input type="number" min="0" step="1" name="bc2_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc2_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc2_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Responder dúvida repetida no WhatsApp</td>
+            <td><input type="number" min="0" step="1" name="bc3_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc3_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc3_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Redirecionar quem escreveu no número errado</td>
+            <td><input type="number" min="0" step="1" name="bc4_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc4_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc4_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Descobrir o status de um pedido para responder “e o meu?”</td>
+            <td><input type="number" min="0" step="1" name="bc5_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc5_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc5_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Enviar dados de pagamento (valor, chave, QR Code)</td>
+            <td><input type="number" min="0" step="1" name="bc6_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc6_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc6_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Conciliar pagamento / rateio entre contas</td>
+            <td><input type="number" min="0" step="1" name="bc7_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc7_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc7_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Conferir prazos do que está em andamento</td>
+            <td><input type="number" min="0" step="1" name="bc8_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc8_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc8_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Explicar procedimento a colega ou funcionário novo</td>
+            <td><input type="number" min="0" step="1" name="bc9_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc9_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc9_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Refazer trabalho por informação perdida ou resposta duplicada</td>
+            <td><input type="number" min="0" step="1" name="bc10_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc10_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc10_f"></td></tr>
+        <tr class="bc"><td class="rotulo">Levantar números para o tabelião</td>
+            <td><input type="number" min="0" step="1" name="bc11_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc11_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc11_f"></td></tr>
+        <tr class="bc"><td><input type="text" name="bc12_nome" placeholder="Surgiu na reunião…"></td>
+            <td><input type="number" min="0" step="1" name="bc12_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc12_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc12_f"></td></tr>
+        <tr class="bc"><td><input type="text" name="bc13_nome" placeholder="Surgiu na reunião…"></td>
+            <td><input type="number" min="0" step="1" name="bc13_v" data-bc="vezes"></td>
+            <td><input type="number" min="0" step="1" name="bc13_m" data-bc="min"></td>
+            <td class="horas" data-bc="h">—</td><td><input type="text" name="bc13_f"></td></tr>
+        <tr class="total"><td colspan="3">Total de horas por mês na camada compartilhada</td>
+            <td class="horas" id="bc-total">—</td><td></td></tr>
+      </table>
+    </div>
+    <p class="dica" style="margin-top:8px">Ao ouvir “isso é rápido”, pergunte quantas vezes por dia.
+    É o número daqui que vira a meta da entrega e a prova do ganho em janeiro.</p>
+  </div>
+</section>
+
+<!-- =========================================================== SEÇÃO 6 -->
+<section>
+  <h2><span class="n">6.</span> Prioridades e fechamento <span class="tempo">12 min</span></h2>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Priorização — preencher junto com a equipe
+      <span class="dica">Alto / Médio / Baixo. Nossa hipótese de ordem está no rodapé da tabela, mas
+      a ordem que vale é a que sair daqui.</span></p>
+    <div class="rolagem">
+      <table style="min-width:700px">
+        <tr><th style="width:34%">Solução</th><th style="width:12%">Áreas</th><th style="width:12%">Impacto</th>
+            <th style="width:12%">Facilidade</th><th style="width:10%">Risco</th><th>Ordem</th></tr>
+        <tr><td class="rotulo">E-mail com etiqueta, responsável, status e SLA</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr1_i"></td><td><input type="text" name="pr1_f"></td>
+            <td><input type="text" name="pr1_r"></td><td><input type="text" name="pr1_o"></td></tr>
+        <tr><td class="rotulo">Triagem do WhatsApp + respostas padronizadas</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr2_i"></td><td><input type="text" name="pr2_f"></td>
+            <td><input type="text" name="pr2_r"></td><td><input type="text" name="pr2_o"></td></tr>
+        <tr><td class="rotulo">Playbooks e checklists por serviço</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr3_i"></td><td><input type="text" name="pr3_f"></td>
+            <td><input type="text" name="pr3_r"></td><td><input type="text" name="pr3_o"></td></tr>
+        <tr><td class="rotulo">Base de conhecimento interna</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr4_i"></td><td><input type="text" name="pr4_f"></td>
+            <td><input type="text" name="pr4_r"></td><td><input type="text" name="pr4_o"></td></tr>
+        <tr><td class="rotulo">Painel de prazos e pendências (SLA)</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr5_i"></td><td><input type="text" name="pr5_f"></td>
+            <td><input type="text" name="pr5_r"></td><td><input type="text" name="pr5_o"></td></tr>
+        <tr><td class="rotulo">Padronização da cobrança (PIX com valor e referência)</td><td class="rotulo">2-3</td>
+            <td><input type="text" name="pr6_i"></td><td><input type="text" name="pr6_f"></td>
+            <td><input type="text" name="pr6_r"></td><td><input type="text" name="pr6_o"></td></tr>
+        <tr><td class="rotulo">Painel de gestão para o tabelião</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr7_i"></td><td><input type="text" name="pr7_f"></td>
+            <td><input type="text" name="pr7_r"></td><td><input type="text" name="pr7_o"></td></tr>
+        <tr><td class="rotulo">Difusão da consulta pública CENPROT (QR Code, cartaz, link)</td><td class="rotulo">1-2</td>
+            <td><input type="text" name="pr8_i"></td><td><input type="text" name="pr8_f"></td>
+            <td><input type="text" name="pr8_r"></td><td><input type="text" name="pr8_o"></td></tr>
+        <tr><td class="rotulo">Agente de IA interno (responde a equipe)</td><td class="rotulo">3</td>
+            <td><input type="text" name="pr9_i"></td><td><input type="text" name="pr9_f"></td>
+            <td><input type="text" name="pr9_r"></td><td><input type="text" name="pr9_o"></td></tr>
+        <tr><td><input type="text" name="pr10_nome" placeholder="Surgiu na reunião…"></td><td><input type="text" name="pr10_a"></td>
+            <td><input type="text" name="pr10_i"></td><td><input type="text" name="pr10_f"></td>
+            <td><input type="text" name="pr10_r"></td><td><input type="text" name="pr10_o"></td></tr>
+      </table>
+    </div>
+    <details>
+      <summary>Nossa hipótese de ordem — só mostrar depois que eles falarem</summary>
+      <p><b>1. E-mail + SLA</b>, porque atravessa tudo e o Gmail já resolve sem custo.
+      <b>2. WhatsApp + respostas padrão</b>, porque reduz interrupção e melhora a experiência de quem
+      chega. <b>3. Playbook e base de conhecimento</b>, porque transforma conhecimento de pessoa em
+      processo. <b>4. Painel de gestão</b>, porque dá visibilidade ao tabelião — e depende dos três
+      anteriores para ter o que mostrar. <b>5. Automação específica de cada atribuição</b>, só depois.
+      O agente de IA interno vem por último de propósito: ele se alimenta da base do item 3.</p>
+    </details>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A entrega transversal 1 — fechar ainda na reunião</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:32%">Campo</th><th>Definição</th></tr>
+        <tr><td class="rotulo">O que é</td><td><input type="text" name="p1_oque"></td></tr>
+        <tr><td class="rotulo">Por que esta primeiro</td><td><textarea name="p1_porque"></textarea></td></tr>
+        <tr><td class="rotulo">Quais das três atribuições ela atende</td><td><input type="text" name="p1_areas"></td></tr>
+        <tr><td class="rotulo">O que ENTRA no escopo</td><td><textarea name="p1_entra"></textarea></td></tr>
+        <tr><td class="rotulo">O que NÃO entra</td><td><textarea name="p1_naoentra"></textarea></td></tr>
+        <tr><td class="rotulo">Responsável no cartório</td><td><input type="text" name="p1_resp_cart"></td></tr>
+        <tr><td class="rotulo">Responsável Maestros do Direito</td><td><input type="text" name="p1_resp_md"></td></tr>
+        <tr><td class="rotulo">O que precisamos receber, e até quando</td><td><textarea name="p1_receber"></textarea></td></tr>
+        <tr><td class="rotulo">Indicador e meta <span class="dica">use o número do bloco 5</span></td><td><input type="text" name="p1_indicador"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="fala">
+    <strong>Tese de fechamento — dizer com estas palavras</strong>
+    “O que estamos vendo é que cada atribuição tem sua técnica própria, mas a gestão tem problemas
+    comuns: entrada, distribuição, prazo, comunicação e acompanhamento. Se resolvermos essa camada
+    compartilhada primeiro, cada automação específica de RCPN, Protesto ou Notas passa a funcionar
+    melhor.”
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> A pergunta final — e o silêncio depois dela
+      <span class="dica">“Se a gente pudesse entregar <b>uma única</b> melhoria que beneficiasse as três
+      atribuições nos próximos 30 dias, qual deveria ser?” A resposta mostra a prioridade real da
+      gestão — que pode não ser a nossa.</span></p>
+    <div class="linha-campos">
+      <div class="campo" style="flex:1 1 100%"><label>A melhoria escolhida — nas palavras deles</label>
+        <input type="text" name="fech_melhoria"></div>
+    </div>
+    <div class="linha-campos" style="margin-top:10px">
+      <div class="campo"><label>Quem respondeu</label><input type="text" name="fech_quem"></div>
+      <div class="campo"><label>Alguém discordou? Quem, e o que disse</label><input type="text" name="fech_discordou"></div>
+    </div>
+    <div class="linha-campos" style="margin-top:10px">
+      <div class="campo"><label>Vezes por mês</label><input type="text" name="fech_vezes"></div>
+      <div class="campo"><label>Tempo cada</label><input type="text" name="fech_tempo"></div>
+      <div class="campo"><label>Horas/mês que isso representa</label><input type="text" name="fech_horas"></div>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Decisões de contrato a confirmar nesta reunião
+      <span class="dica">São decisões de gestão, e esta é a sessão da gestão — não deixe para o
+      e-mail depois.</span></p>
+    <label class="check"><input type="checkbox" name="dec1"><span>Ordem das sessões e das entregas: <b>diagnosticar as três atribuições antes de construir</b>, conforme conversado.</span></label>
+    <label class="check"><input type="checkbox" name="dec2"><span>Se uma entrega transversal consumir o <b>encontro livre</b>, está combinado (cláusula 2.3.1).</span></label>
+    <label class="check"><input type="checkbox" name="dec3"><span>Quem, do lado do cartório, é o <b>ponto único</b> de interlocução com os Maestros do Direito.</span></label>
+    <label class="check"><input type="checkbox" name="dec4"><span>Como o material chega até nós (e-mail do grupo) e em que formato.</span></label>
+    <label class="check"><input type="checkbox" name="dec5"><span>Datas das próximas sessões de diagnóstico e do primeiro encontro de construção.</span></label>
+  </div>
+
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Pendências combinadas</p>
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:56%">O que ficou de ser enviado / feito</th><th style="width:24%">Quem</th><th>Até quando</th></tr>
+        <tr><td><input type="text" name="pend1"></td><td><input type="text" name="pend1_q"></td><td><input type="text" name="pend1_p"></td></tr>
+        <tr><td><input type="text" name="pend2"></td><td><input type="text" name="pend2_q"></td><td><input type="text" name="pend2_p"></td></tr>
+        <tr><td><input type="text" name="pend3"></td><td><input type="text" name="pend3_q"></td><td><input type="text" name="pend3_p"></td></tr>
+        <tr><td><input type="text" name="pend4"></td><td><input type="text" name="pend4_q"></td><td><input type="text" name="pend4_p"></td></tr>
+        <tr><td><input type="text" name="pend5"></td><td><input type="text" name="pend5_q"></td><td><input type="text" name="pend5_p"></td></tr>
+        <tr><td><input type="text" name="pend6"></td><td><input type="text" name="pend6_q"></td><td><input type="text" name="pend6_p"></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== curingas -->
+<section class="nao-imprimir">
+  <h2><span class="n">·</span> Frases de condução — para usar quando a conversa sair do lugar</h2>
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Quatro frases que devolvem a reunião ao trilho</p>
+    <ol class="curinga">
+      <li>Quando alguém trouxer um problema muito específico:
+        <b>“isso é uma dor deste setor ou acontece nas outras atribuições também?”</b></li>
+      <li>Quando aparecer duplicidade: <b>“esse mesmo processo existe em Notas e no RCPN?”</b></li>
+      <li>Quando alguém sugerir ferramenta: <b>“antes de escolher a ferramenta, quero entender se o
+        problema é de processo, de sistema ou de comunicação.”</b></li>
+      <li>Quando surgir dependência de pessoa: <b>“se essa pessoa faltar uma semana, como o processo
+        continua?”</b></li>
+    </ol>
+  </div>
+  <div class="q">
+    <p class="pergunta"><span class="num">›</span> Perguntas curinga — se a conversa travar</p>
+    <ol class="curinga">
+      <li>Qual foi a última reclamação que vocês receberam?</li>
+      <li>O que faz o cidadão voltar ao cartório uma segunda vez?</li>
+      <li>Onde vocês escrevem a mesma informação em dois lugares?</li>
+      <li>O que chega por WhatsApp e depois precisa virar e-mail, papel ou lançamento?</li>
+      <li>Que pergunta vocês respondem todo dia, para pessoas diferentes?</li>
+      <li>O que trava quando falta luz, internet ou o sistema cai?</li>
+      <li>Que tarefa ninguém quer fazer?</li>
+      <li>Qual foi o último erro que custou dinheiro?</li>
+      <li>O que só uma pessoa sabe fazer?</li>
+      <li>Se entrasse alguém novo amanhã, o que seria mais difícil de ensinar?</li>
+    </ol>
+  </div>
+  <div class="aviso risco">
+    <strong>O que não fazer nesta sessão</strong>
+    Não entrar em detalhe jurídico de cada ato — isso é das outras três sessões. Não escolher
+    ferramenta logo de cara. Não prometer chatbot completo, integração complexa nem automação de
+    decisão técnica. E não propor tecnologia onde já funciona: o núcleo do Protesto está resolvido e
+    o cliente sabe disso.
+  </div>
+  <div class="aviso">
+    <strong>Regra de ouro</strong>
+    Não procurar IA — <b>procurar desperdício</b>. Foco em cinco perguntas: quem recebe, quem faz, em
+    quanto tempo, onde fica registrado e como sabemos que terminou.
+  </div>
+</section>
+
+<!-- =========================================================== síntese -->
+<section>
+  <h2><span class="n">7.</span> Síntese para o Rodrigo</h2>
+  <p class="intro-secao">Preencher logo depois da reunião, ainda com a memória quente. É o bloco que
+    vai para a construção — o botão <b>Copiar resumo</b> leva tudo junto.</p>
+  <div class="q">
+    <div class="rolagem">
+      <table>
+        <tr><th style="width:34%">Item</th><th>Registro</th></tr>
+        <tr><td class="rotulo">A camada compartilhada em uma linha</td><td><textarea name="sin_camada"></textarea></td></tr>
+        <tr><td class="rotulo">Os processos que se duplicam nas três atribuições</td><td><textarea name="sin_duplica"></textarea></td></tr>
+        <tr><td class="rotulo">As dores transversais <b>confirmadas</b> — e as que caíram</td><td><textarea name="sin_dores"></textarea></td></tr>
+        <tr><td class="rotulo">O que já funciona e não devemos tocar</td><td><textarea name="sin_naotocar"></textarea></td></tr>
+        <tr><td class="rotulo">Business case: horas/mês da camada compartilhada</td><td><textarea name="sin_bc"></textarea></td></tr>
+        <tr><td class="rotulo">A entrega transversal 1 e o motivo da escolha</td><td><textarea name="sin_entrega"></textarea></td></tr>
+        <tr><td class="rotulo">O painel de segunda-feira — o que o tabelião quer ver</td><td><textarea name="sin_painel"></textarea></td></tr>
+        <tr><td class="rotulo">O que é problema de processo, não de tecnologia</td><td><textarea name="sin_processo"></textarea></td></tr>
+        <tr><td class="rotulo">Pré-requisitos (Workspace ou conta comum, acessos, quem opera, custo)</td><td><textarea name="sin_prereq"></textarea></td></tr>
+        <tr><td class="rotulo">Dependências de pessoa — e quais são controle interno deliberado</td><td><textarea name="sin_pessoas"></textarea></td></tr>
+        <tr><td class="rotulo">Impacto no cronograma dos 12 encontros (o encontro livre)</td><td><textarea name="sin_cronograma"></textarea></td></tr>
+        <tr><td class="rotulo">O que muda nos diagnósticos de Protesto e RCPN por causa desta sessão</td><td><textarea name="sin_cruza"></textarea></td></tr>
+        <tr><td class="rotulo">Materiais recebidos / ainda pendentes</td><td><textarea name="sin_materiais"></textarea></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+</form>
+
+<footer>
+  Maestros do Direito · orquestrando a IA &nbsp;|&nbsp; Tecnologia que transforma. Pessoas que entregam.
+</footer>
+
+</div>
+
+<div class="barra nao-imprimir">
+  <button type="button" id="btn-crono">▶ Iniciar</button>
+  <span class="relogio" id="relogio">00:00</span>
+  <span class="agora" id="agora">bloco previsto: <b>—</b></span>
+  <span class="contador" id="contador">essenciais: <b>0/5</b></span>
+  <button type="button" class="secundario" id="btn-copiar">Copiar resumo</button>
+  <button type="button" class="secundario" id="btn-pdf">Salvar em PDF</button>
+  <button type="button" class="secundario" id="btn-limpar">Limpar</button>
+  <span class="salvo" id="status">Salva sozinho neste navegador.</span>
+</div>
+
+<script>
+(function(){
+  var CHAVE  = "md-gestao-conducao-v1";
+  var CRONO  = "md-gestao-crono-v1";
+  var form   = document.getElementById("formulario");
+  var status = document.getElementById("status");
+  var campos = form.querySelectorAll("input, textarea, select");
+
+  /* valores que já vêm preenchidos e não devem sumir no "Limpar" */
+  var PREENCHIDOS = ["sala1_nome","sala1_funcao","sala1_papel","sala2_nome","sala2_funcao",
+                     "sala2_papel","sala3_papel","pg2_conta","pg2_erro"];
+
+  /* ---------------------------------------------------------------- salvar */
+  function ler(){
+    try { return JSON.parse(localStorage.getItem(CHAVE) || "{}"); }
+    catch(e){ return {}; }
+  }
+
+  var dados = ler();
+  campos.forEach(function(c){
+    if(!c.name) return;
+    if(c.type === "checkbox"){ if(dados[c.name] === true) c.checked = true; }
+    else if(c.type === "radio"){ if(dados[c.name] === c.value) c.checked = true; }
+    else if(typeof dados[c.name] === "string" && dados[c.name] !== ""){ c.value = dados[c.name]; }
+  });
+
+  var timer;
+  function salvar(){
+    var pacote = {};
+    campos.forEach(function(c){
+      if(!c.name) return;
+      if(c.type === "checkbox"){ pacote[c.name] = c.checked; }
+      else if(c.type === "radio"){ if(c.checked) pacote[c.name] = c.value; }
+      else { pacote[c.name] = c.value; }
+    });
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(pacote));
+      status.textContent = "Salvo às " +
+        new Date().toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit"});
+    } catch(e){
+      status.textContent = "NÃO está salvando — copie o resumo antes de fechar.";
+    }
+  }
+
+  form.addEventListener("input",  function(){ clearTimeout(timer); timer = setTimeout(salvar, 400); calcular(); });
+  form.addEventListener("change", function(){ clearTimeout(timer); timer = setTimeout(salvar, 150); contarEssenciais(); });
+
+  try { localStorage.setItem(CHAVE + "-teste", "1"); localStorage.removeItem(CHAVE + "-teste"); }
+  catch(e){
+    status.textContent = "Este navegador não salva — use o Chrome ou copie o resumo ao final.";
+    status.style.color = "#F0C7B8";
+  }
+
+  /* ------------------------------------------------------------ essenciais */
+  var essenciais = form.querySelectorAll(".essencial");
+  var contador = document.getElementById("contador");
+  function contarEssenciais(){
+    var n = 0;
+    essenciais.forEach(function(c){ if(c.checked) n++; });
+    contador.innerHTML = "essenciais: <b>" + n + "/5</b>";
+  }
+  contarEssenciais();
+
+  /* ------------------------------------------------ calculadora do business case */
+  var linhasBC = form.querySelectorAll("tr.bc");
+  var totalBC  = document.getElementById("bc-total");
+  function calcular(){
+    var total = 0;
+    linhasBC.forEach(function(tr){
+      var v = parseFloat((tr.querySelector('[data-bc="vezes"]') || {}).value);
+      var m = parseFloat((tr.querySelector('[data-bc="min"]') || {}).value);
+      var cel = tr.querySelector('[data-bc="h"]');
+      if(!cel) return;
+      if(isNaN(v) || isNaN(m) || v <= 0 || m <= 0){ cel.textContent = "—"; return; }
+      var h = (v * m) / 60;
+      total += h;
+      cel.textContent = h.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + " h";
+    });
+    totalBC.textContent = total > 0
+      ? total.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + " h/mês"
+      : "—";
+  }
+  calcular();
+
+  /* ------------------------------------------------------- textareas crescem */
+  function ajustar(t){ t.style.height = "auto"; t.style.height = (t.scrollHeight + 2) + "px"; }
+  var areas = form.querySelectorAll("textarea");
+  areas.forEach(function(t){ ajustar(t); t.addEventListener("input", function(){ ajustar(t); }); });
+  window.addEventListener("beforeprint", function(){
+    areas.forEach(ajustar);
+    document.querySelectorAll("details").forEach(function(d){ d.open = false; });
+  });
+
+  /* --------------------------------------------------------------- cronômetro */
+  var BLOCOS = [
+    ["1 · Abertura",                      10],
+    ["2 · Mapa do compartilhado",         35],
+    ["3.1 · E-mail único",                47],
+    ["3.2 · WhatsApp",                    57],
+    ["3.3 · Prazos e SLA",                67],
+    ["3.4 · Pagamentos",                  74],
+    ["3.5 · Conhecimento e treinamento",  80],
+    ["4 · Gestão e indicadores",         100],
+    ["5 · Business case",                108],
+    ["6 · Prioridades e fechamento",     120]
+  ];
+  var relogio = document.getElementById("relogio");
+  var agora   = document.getElementById("agora");
+  var btnCrono = document.getElementById("btn-crono");
+  var inicio = null, tique = null;
+
+  try { var g = localStorage.getItem(CRONO); if(g) inicio = parseInt(g, 10); } catch(e){}
+
+  function pinta(){
+    if(!inicio){ return; }
+    var seg = Math.floor((Date.now() - inicio) / 1000);
+    var m = Math.floor(seg / 60), s = seg % 60;
+    relogio.textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    var nome = "encerrado";
+    for(var i = 0; i < BLOCOS.length; i++){
+      if(m < BLOCOS[i][1]){ nome = BLOCOS[i][0]; break; }
+    }
+    agora.innerHTML = "bloco previsto: <b>" + nome + "</b>";
+  }
+  function roda(){ if(tique) clearInterval(tique); tique = setInterval(pinta, 1000); pinta(); }
+  if(inicio){ btnCrono.textContent = "⟲ Reiniciar"; roda(); }
+
+  btnCrono.addEventListener("click", function(){
+    if(inicio && !confirm("Reiniciar o cronômetro do zero?")) return;
+    inicio = Date.now();
+    try { localStorage.setItem(CRONO, String(inicio)); } catch(e){}
+    btnCrono.textContent = "⟲ Reiniciar";
+    roda();
+  });
+
+  /* ------------------------------------------------------------ copiar resumo */
+  function textoDe(el){ return (el.textContent || "").replace(/\s+/g, " ").trim(); }
+
+  function tituloDe(el){
+    var c = el.cloneNode(true);
+    c.querySelectorAll(".dica").forEach(function(d){ d.remove(); });
+    return textoDe(c).replace(/^›\s*/, "").replace(/^\d+\.\s*/, "");
+  }
+
+  function rotuloGrupo(w){
+    var p = w.previousElementSibling, n = 0;
+    while(p && n < 3){
+      if(p.classList.contains("sub")) return textoDe(p);
+      p = p.previousElementSibling; n++;
+    }
+    return "";
+  }
+
+  function valorDe(c){
+    if(c.type === "checkbox") return c.checked ? "sim" : "";
+    if(c.type === "radio")    return c.checked ? c.value : "";
+    return (c.value || "").trim();
+  }
+
+  function rotuloCelula(tr, celula){
+    var tabela = tr.closest("table");
+    var cab = tabela ? tabela.querySelector("tr:first-child") : null;
+    var idx = Array.prototype.indexOf.call(tr.cells, celula);
+    if(cab && cab.cells[idx]){
+      var c = cab.cells[idx].cloneNode(true);
+      c.querySelectorAll(".dica").forEach(function(d){ d.remove(); });
+      return textoDe(c);
+    }
+    return "sim";
+  }
+
+  function montarResumo(){
+    var out = ["# Diagnóstico Gestão e Atendimento — Cartório Bandeira (Canaã dos Carajás/PA)", ""];
+
+    form.querySelectorAll("section").forEach(function(sec){
+      var h = sec.querySelector("h2");
+      var linhas = [];
+
+      sec.querySelectorAll(".q").forEach(function(q){
+        var titulo = q.querySelector(".pergunta");
+        var bloco = [];
+
+        q.querySelectorAll("tr").forEach(function(tr){
+          var cs = tr.querySelectorAll("input, textarea, select");
+          if(!cs.length) return;
+          var vals = [];
+          cs.forEach(function(c){
+            var v = valorDe(c);
+            if(!v) return;
+            if(c.type === "checkbox"){ vals.push(rotuloCelula(tr, c.closest("td"))); }
+            else { vals.push(v); }
+          });
+          // horas calculadas entram no resumo
+          var ch = tr.querySelector('[data-bc="h"]');
+          if(ch && ch.textContent !== "—") vals.push("= " + ch.textContent);
+          if(!vals.length) return;
+          var rot = tr.querySelector("td.rotulo");
+          bloco.push("- " + (rot ? textoDe(rot) + ": " : "") + vals.join(" | "));
+        });
+
+        q.querySelectorAll(".campo, .opcoes, .outro").forEach(function(w){
+          var grupo = w.classList.contains("campo") ? "" : rotuloGrupo(w);
+          w.querySelectorAll("input, textarea, select").forEach(function(c){
+            var v = valorDe(c);
+            if(!v) return;
+            var lab = c.closest("label");
+            if(c.type === "checkbox" || c.type === "radio"){
+              bloco.push("- " + (grupo ? grupo + ": " : "") + (lab ? textoDe(lab) : c.name));
+            } else {
+              var l = w.querySelector("label");
+              var rot = l ? textoDe(l) : grupo;
+              bloco.push("- " + (rot ? rot + ": " : "") + v);
+            }
+          });
+        });
+
+        q.querySelectorAll(":scope > textarea, :scope > input").forEach(function(c){
+          var v = valorDe(c);
+          if(!v) return;
+          bloco.push("- " + v);
+        });
+        q.querySelectorAll(".check input").forEach(function(c){
+          if(!c.checked) return;
+          var lab = c.closest("label");
+          var t = "- [x] " + (lab ? textoDe(lab) : c.name);
+          if(bloco.indexOf(t) === -1) bloco.push(t);
+        });
+
+        if(bloco.length){
+          if(titulo) linhas.push("**" + tituloDe(titulo) + "**");
+          linhas = linhas.concat(bloco, "");
+        }
+      });
+
+      if(linhas.length && h){
+        out.push("## " + textoDe(h).replace(/\s*(\d+\s*min|no fechamento)$/, "").trim(), "");
+        out = out.concat(linhas);
+      }
+    });
+
+    if(totalBC && totalBC.textContent !== "—"){
+      out.push("", "**TOTAL DO BUSINESS CASE TRANSVERSAL: " + totalBC.textContent + "**");
+    }
+    out.push("", "_Gerado pelo formulário de condução — Maestros do Direito._");
+    return out.join("\n");
+  }
+
+  document.getElementById("btn-copiar").addEventListener("click", function(){
+    var txt = montarResumo();
+    function feito(){ status.textContent = "Resumo copiado — cole na mensagem para o grupo."; }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(feito, function(){ manual(txt); });
+    } else { manual(txt); }
+  });
+
+  function manual(txt){
+    var t = document.createElement("textarea");
+    t.value = txt;
+    t.style.position = "fixed"; t.style.top = "10%"; t.style.left = "5%";
+    t.style.width = "90%"; t.style.height = "70%"; t.style.zIndex = "99";
+    document.body.appendChild(t);
+    t.select();
+    try { document.execCommand("copy"); status.textContent = "Resumo copiado."; }
+    catch(e){ status.textContent = "Selecione o texto da caixa e copie."; }
+    setTimeout(function(){ t.remove(); }, 400);
+  }
+
+  /* ------------------------------------------------------------------ botões */
+  document.getElementById("btn-pdf").addEventListener("click", function(){
+    areas.forEach(ajustar);
+    window.print();
+  });
+
+  document.getElementById("btn-limpar").addEventListener("click", function(){
+    if(!confirm("Apagar tudo o que foi preenchido neste formulário?")) return;
+    try { localStorage.removeItem(CHAVE); localStorage.removeItem(CRONO); } catch(e){}
+    campos.forEach(function(c){
+      if(c.type === "checkbox" || c.type === "radio"){ c.checked = false; }
+      else if(PREENCHIDOS.indexOf(c.name) === -1){ c.value = ""; }
+    });
+    areas.forEach(ajustar);
+    contarEssenciais();
+    calcular();
+    status.textContent = "Formulário limpo.";
+  });
+})();
+</script>
+</body>
+</html>
